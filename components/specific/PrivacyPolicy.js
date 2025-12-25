@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 export default function PrivacyPolicy({ onBack }) {
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack}>
           <Ionicons name="arrow-back" size={24} color="white" />
