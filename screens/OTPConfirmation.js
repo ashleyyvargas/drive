@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import * as Location from 'expo-location';
 
-const OTP_EXPIRY_TIME = 10; // seconds
+const OTP_EXPIRY_TIME = 10; 
 
 export default function OTPConfirmation({
   phoneNumber,
@@ -61,7 +61,6 @@ export default function OTPConfirmation({
     }
   };
 
-  /* ================= LOCATION PERMISSION ================= */
   const requestLocationPermission = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -79,7 +78,6 @@ export default function OTPConfirmation({
     }
   };
 
-  /* ================= CONFIRM ================= */
   const handleSubmit = async () => {
   if (isExpired) {
     setError('OTP expired. Please resend the code.');
@@ -87,7 +85,6 @@ export default function OTPConfirmation({
   }
 
   if (otp.every(d => d !== '')) {
-    // Wait for async onConfirm
     if (onConfirm) await onConfirm(otp.join('')); 
   } else {
     setError('Please enter a valid OTP');
@@ -115,7 +112,6 @@ export default function OTPConfirmation({
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        {/* Icon */}
         <View style={styles.iconWrapper}>
           <View style={styles.iconCircle}>
             <Image
@@ -126,20 +122,17 @@ export default function OTPConfirmation({
           </View>
         </View>
 
-        {/* Title */}
         <Text style={styles.title}>Almost there!</Text>
         <Text style={styles.subtitle}>
           Enter the verification code sent to {phoneNumber}
         </Text>
 
-        {/* Timer */}
         <Text style={[styles.timer, isExpired && styles.expired]}>
           {isExpired
             ? 'Code expired'
             : `Code expires in ${formatTime(otpTimer)}`}
         </Text>
 
-        {/* OTP Inputs */}
         <View style={styles.otpRow}>
           {otp.map((digit, index) => (
             <TextInput
@@ -160,7 +153,6 @@ export default function OTPConfirmation({
 
         {error !== '' && <Text style={styles.error}>{error}</Text>}
 
-        {/* Continue */}
         <Pressable
           style={[
             styles.primaryButton,
@@ -172,7 +164,6 @@ export default function OTPConfirmation({
           <Text style={styles.primaryText}>Continue</Text>
         </Pressable>
 
-        {/* Resend */}
         <Pressable
           style={[
             styles.outlineButton,
@@ -186,7 +177,6 @@ export default function OTPConfirmation({
           </Text>
         </Pressable>
 
-        {/* Back */}
         {onBack && (
           <Pressable style={styles.backButton} onPress={onBack}>
             <Text style={styles.backText}>← Back</Text>
@@ -197,7 +187,6 @@ export default function OTPConfirmation({
   );
 }
 
-/* ================= STYLES ================= */
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', paddingHorizontal: 24, paddingTop: 40, paddingBottom: 32 },
   content: { flex: 1 },

@@ -41,16 +41,13 @@ export default function LoginScreen({ onLogin, onForgotPassword, onSignup }) {
     <View style={styles.container}>
       <View style={styles.content}>
 
-        {/* Spacer above title */}
         <View style={styles.spacer} />
 
-        {/* Title */}
         <Text style={styles.title}>Log in to DRIVE</Text>
         <Text style={styles.description}>
           Welcome back! Please enter your details.
         </Text>
 
-        {/* Phone Number */}
         <View style={styles.field}>
           <Text style={styles.label}>Phone Number</Text>
           <View style={styles.inputWrapper}>
@@ -66,7 +63,6 @@ export default function LoginScreen({ onLogin, onForgotPassword, onSignup }) {
           {errors.phone && <Text style={styles.error}>{errors.phone}</Text>}
         </View>
 
-        {/* Password */}
         <View style={styles.field}>
           <Text style={styles.label}>Password</Text>
           <View style={styles.inputWrapper}>
@@ -82,17 +78,14 @@ export default function LoginScreen({ onLogin, onForgotPassword, onSignup }) {
           {errors.password && <Text style={styles.error}>{errors.password}</Text>}
         </View>
 
-        {/* Login Button */}
         <Pressable style={styles.loginButton} onPress={handleSubmit}>
           <Text style={styles.loginText}>Log In</Text>
         </Pressable>
 
-        {/* Forgot Password */}
         <Pressable onPress={onForgotPassword}>
           <Text style={styles.forgot}>Forgot password?</Text>
         </Pressable>
 
-        {/* Signup */}
         <View style={styles.signupContainer}>
           <Text style={styles.signupText}>
             Don&apos;t have an account?{' '}
@@ -118,7 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   spacer: {
-    height: 120, // keeps space above the title
+    height: 120, 
   },
   title: {
     fontSize: 32,

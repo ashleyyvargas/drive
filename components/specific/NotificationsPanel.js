@@ -11,9 +11,9 @@ const notifications = [
     title: 'Level 3 Warning Detected',
     message: 'Extremely drowsy state detected at 9:35 PM',
     time: '5 minutes ago',
-    color: '#dc2626', // red-600
-    bgColor: '#fee2e2', // red-50
-    icon: 'alert-triangle', // placeholder for icon mapping
+    color: '#dc2626', 
+    bgColor: '#fee2e2', 
+    icon: 'alert-triangle', 
   },
   {
     id: '2',
@@ -22,8 +22,8 @@ const notifications = [
     title: 'Level 2 Warning Detected',
     message: 'Moderately drowsy state detected at 8:15 PM',
     time: '1 hour ago',
-    color: '#d97706', // amber-600
-    bgColor: '#fef3c7', // amber-50
+    color: '#d97706', 
+    bgColor: '#fef3c7',
     icon: 'alert-triangle',
   },
   {
@@ -32,8 +32,8 @@ const notifications = [
     title: 'System Update',
     message: 'Monitoring system is functioning normally',
     time: '2 hours ago',
-    color: '#2563eb', // blue-600
-    bgColor: '#dbeafe', // blue-50
+    color: '#2563eb', 
+    bgColor: '#dbeafe', 
     icon: 'info',
   },
   {
@@ -43,8 +43,8 @@ const notifications = [
     title: 'Level 1 Warning Detected',
     message: 'Slightly drowsy state detected at 6:30 PM',
     time: '3 hours ago',
-    color: '#16a34a', // green-600
-    bgColor: '#dcfce7', // green-50
+    color: '#16a34a', 
+    bgColor: '#dcfce7', 
     icon: 'alert-triangle',
   },
 ];
@@ -81,7 +81,6 @@ export default function NotificationsPanel() {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="white" />
@@ -90,7 +89,6 @@ export default function NotificationsPanel() {
         <View style={{ width: 24 }} />
       </View>
 
-      {/* Notifications List */}
       <FlatList
         data={notifications}
         keyExtractor={(item) => item.id}
@@ -98,7 +96,6 @@ export default function NotificationsPanel() {
         contentContainerStyle={styles.scrollContent}
       />
 
-      {/* Navigation Bar */}
       <View style={styles.navBar}>
         <TouchableOpacity style={styles.navButton} onPress={() => onNavigate('Dashboard')}>
           <View style={styles.navIcon}>

@@ -61,8 +61,6 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
     }
   };
 
-  /* ================= TERMS SCREEN ================= */
-
   if (showTerms) {
     return (
       <View style={styles.container}>
@@ -118,8 +116,6 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
     );
   }
 
-  /* ================= SIGNUP FORM ================= */
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Pressable onPress={onBackToLogin} style={styles.backButton}>
@@ -171,8 +167,6 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
     </ScrollView>
   );
 }
-
-/* ================= HELPER ================= */
 
 function renderInput(label, value, onChange, keyboardType = 'default', secure = false) {
   return (

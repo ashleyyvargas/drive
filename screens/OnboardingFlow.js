@@ -7,12 +7,10 @@ import {
   Image,
 } from 'react-native';
 
-/* ================= IMAGES ================= */
 import onboardSteering from '../assets/onboard-steering.png';
 import onboardGeo from '../assets/onboard-geo.png';
 import onboardVoice from '../assets/onboard-voice.png';
 
-/* ================= DATA ================= */
 const onboardingScreens = [
   {
     title: 'Steering Behavior Monitoring',
@@ -31,7 +29,6 @@ const onboardingScreens = [
   },
 ];
 
-/* ================= COMPONENT ================= */
 export default function OnboardingFlow({ onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -47,7 +44,6 @@ export default function OnboardingFlow({ onComplete }) {
 
   return (
     <View style={styles.container}>
-      {/* ===== CONTENT ===== */}
       <View style={styles.content}>
         <View style={styles.illustrationWrapper}>
           <View style={styles.illustrationBox}>
@@ -63,7 +59,6 @@ export default function OnboardingFlow({ onComplete }) {
         <Text style={styles.description}>{currentScreen.description}</Text>
       </View>
 
-      {/* ===== FOOTER ===== */}
       <View style={styles.footer}>
         {/* Dots */}
         <View style={styles.dotsContainer}>
@@ -78,7 +73,6 @@ export default function OnboardingFlow({ onComplete }) {
           ))}
         </View>
 
-        {/* Button */}
         <Pressable style={styles.button} onPress={handleNext}>
           <Text style={styles.buttonText}>
             {currentIndex === onboardingScreens.length - 1
@@ -91,7 +85,6 @@ export default function OnboardingFlow({ onComplete }) {
   );
 }
 
-/* ================= STYLES ================= */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

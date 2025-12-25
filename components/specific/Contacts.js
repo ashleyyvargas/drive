@@ -113,13 +113,13 @@ export default function Contacts({ onNavigate }) {
 
       {/* Bottom Navigation */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, backgroundColor: 'white' }}>
-              <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')}  />
-              <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} />
-              <NavItem icon="map-pin" label="Location" onPress={() => onNavigate('location')} />
-              <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} active />
-              <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} />
-            </View>
-          </View>
+          <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')}  />
+          <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} />
+          <NavItem icon="map-pin" label="Location" onPress={() => onNavigate('location')} />
+          <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} active />
+          <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} />
+        </View>
+      </View>
   );
 }
 

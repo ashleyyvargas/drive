@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, StatusBar 
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-// Replace this with a valid image import in your project
 import driverImage from '../assets/driver.png';
 
 const detectionMetrics = [
@@ -17,9 +16,9 @@ export default function WarningDetails({ alert }) {
 
   const getBgColor = () => {
     switch (alert.level) {
-      case 'level1': return ['#22c55e', '#16a34a']; // green
-      case 'level2': return ['#f59e0b', '#d97706']; // amber
-      case 'level3': return ['#ef4444', '#b91c1c']; // red
+      case 'level1': return ['#22c55e', '#16a34a']; 
+      case 'level2': return ['#f59e0b', '#d97706']; 
+      case 'level3': return ['#ef4444', '#b91c1c']; 
       default: return ['#3b82f6', '#2563eb'];
     }
   };
@@ -52,9 +51,7 @@ export default function WarningDetails({ alert }) {
         <View style={{ width: 24 }} />
       </View>
 
-      {/* Content */}
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Warning Card */}
         <View style={styles.card}>
           <Text style={[styles.cardTitle, { color: getLevelColor() }]}>{getLevelText()}</Text>
           <Image source={driverImage} style={styles.driverImage} resizeMode="cover" />

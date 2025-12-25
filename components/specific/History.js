@@ -66,12 +66,10 @@ export default function History({ onNavigate }) {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>History</Text>
       </View>
 
-      {/* History List */}
       <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 100 }}>
         {historyData.map((item) => (
           <TouchableOpacity key={item.id} style={styles.item}>
@@ -99,7 +97,6 @@ export default function History({ onNavigate }) {
         ))}
       </ScrollView>
 
-      {/* Bottom Navigation */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, backgroundColor: '#white' }}>
           <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')}  />
           <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} active />

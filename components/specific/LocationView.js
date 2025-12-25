@@ -10,7 +10,6 @@ export default function LocationView({ onNavigate }) {
   useEffect(() => {
     (async () => {
       
-
       // Get current location
       let location = await Location.getCurrentPositionAsync({});
       setCurrentLocation({
@@ -49,7 +48,6 @@ export default function LocationView({ onNavigate }) {
       <TouchableOpacity
         style={styles.locationButton}
         onPress={() => {
-          // Recenter map on current location
         }}
       >
         <Ionicons name="navigate" size={24} color="#2563EB" />

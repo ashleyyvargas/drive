@@ -44,7 +44,6 @@ export default function NewPassword({ onSubmit, onBack }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Ionicons name="chevron-back" size={24} color="#111827" />
         <Text style={styles.backText}>New Password</Text>

@@ -23,45 +23,41 @@ export default function Dashboard({ onNavigate }) {
     return '';
   };
 
-  /* 🔁 SCREEN SWITCHING */
-if (showNotifications) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notifications Panel</Text>
-      <TouchableOpacity onPress={() => setShowNotifications(false)}>
-        <Text style={{ marginTop: 20, color: '#1E88E5' }}>Go Back</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+  if (showNotifications) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Notifications Panel</Text>
+        <TouchableOpacity onPress={() => setShowNotifications(false)}>
+          <Text style={{ marginTop: 20, color: '#1E88E5' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
-if (showWarningDetails) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Warning Details</Text>
-      <TouchableOpacity onPress={() => setShowWarningDetails(false)}>
-        <Text style={{ marginTop: 20, color: '#1E88E5' }}>Go Back</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+  if (showWarningDetails) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Warning Details</Text>
+        <TouchableOpacity onPress={() => setShowWarningDetails(false)}>
+          <Text style={{ marginTop: 20, color: '#1E88E5' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
-if (selectedMonitoring) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Monitoring Report: {selectedMonitoring}</Text>
-      <TouchableOpacity onPress={() => setSelectedMonitoring(null)}>
-        <Text style={{ marginTop: 20, color: '#1E88E5' }}>Go Back</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
+  if (selectedMonitoring) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Monitoring Report: {selectedMonitoring}</Text>
+        <TouchableOpacity onPress={() => setSelectedMonitoring(null)}>
+          <Text style={{ marginTop: 20, color: '#1E88E5' }}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: '#1E88E5' }}>
-
-      {/* 🔔 Notification Button */}
       <TouchableOpacity
         onPress={() => setShowNotifications(true)}
         style={{
@@ -74,7 +70,6 @@ if (selectedMonitoring) {
         <Ionicons name="person-outline" size={26} color="white" />
       </TouchableOpacity>
 
-      {/* 👤 Profile (overlapping) */}
       <View style={{ alignItems: 'center', marginTop: 60, zIndex: 5 }}>
         <View
           style={{
@@ -99,7 +94,6 @@ if (selectedMonitoring) {
         </View>
       </View>
 
-      {/* ⬜ Main Card */}
       <View
         style={{
           flex: 1,
@@ -111,7 +105,6 @@ if (selectedMonitoring) {
         }}
       >
 
-        {/* 🔴 CURRENT STATUS pill */}
         <View
           style={{
             flexDirection: 'row',
@@ -132,7 +125,7 @@ if (selectedMonitoring) {
           <Ionicons name="alert-circle" size={20} color={currentAlert.color} />
         </View>
 
-        {/* 🚨 Recent Activity */}
+        {/* Recent Activity */}
         <Text style={{ fontWeight: '600', marginBottom: 10 }}>
           Recent Activity
         </Text>
@@ -156,7 +149,7 @@ if (selectedMonitoring) {
           </Text>
         </TouchableOpacity>
 
-        {/* 👁 Monitoring Activity */}
+        {/* Monitoring Activity */}
         <Text style={{ fontWeight: '600', marginBottom: 12 }}>
           Monitoring Activity
         </Text>
@@ -180,7 +173,7 @@ if (selectedMonitoring) {
         </ScrollView>
       </View>
 
-      {/* ⛔ Bottom nav unchanged */}
+      {/* Bottom nav */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, backgroundColor: 'white' }}>
         <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} active />
         <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} />
@@ -192,7 +185,7 @@ if (selectedMonitoring) {
   );
 }
 
-/* 🔹 Monitoring cards */
+/* Monitoring cards */
 function MonitoringButton({ icon, label, onPress }) {
   return (
     <TouchableOpacity
@@ -216,7 +209,7 @@ function MonitoringButton({ icon, label, onPress }) {
   );
 }
 
-/* 🔹 Bottom nav item */
+/* Bottom nav item */
 function NavItem({ icon, label, onPress, active }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>

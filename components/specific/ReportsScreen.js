@@ -13,7 +13,6 @@ function MiniChart({ title, subtitle }) {
     <View style={styles.chartContainer}>
       <Text style={styles.chartTitle}>{title}</Text>
       <Text style={styles.chartSubtitle}>{subtitle}</Text>
-      {/* Placeholder for chart */}
       <View style={styles.chartPlaceholder}>
         <Text style={{ fontSize: 10, color: '#3B82F6' }}>Chart Placeholder</Text>
       </View>
@@ -54,11 +53,11 @@ export default function ReportsScreen({ type, level }) {
   const getBgColor = () => {
     switch (level) {
       case 'level1':
-        return ['#22c55e', '#16a34a']; // green gradient
+        return ['#22c55e', '#16a34a']; 
       case 'level2':
-        return ['#f59e0b', '#d97706']; // amber gradient
+        return ['#f59e0b', '#d97706']; 
       case 'level3':
-        return ['#ef4444', '#b91c1c']; // red gradient
+        return ['#ef4444', '#b91c1c']; 
       default:
         return ['#3b82f6', '#2563eb'];
     }
@@ -103,7 +102,6 @@ export default function ReportsScreen({ type, level }) {
   return (
     <View style={[styles.container, { backgroundColor: getBgColor()[0] }]}>
       <StatusBar barStyle="light-content" />
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={24} color="white" />
@@ -112,12 +110,10 @@ export default function ReportsScreen({ type, level }) {
         <View style={{ width: 24 }} />
       </View>
 
-      {/* Content */}
       <ScrollView contentContainerStyle={styles.content}>
         {renderContent()}
       </ScrollView>
 
-      {/* Navigation Bar */}
       <View style={styles.navBar}>
         {navButtons.map((btn, idx) => (
           <TouchableOpacity

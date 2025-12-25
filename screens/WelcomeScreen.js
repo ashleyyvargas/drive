@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, StatusBar } from 'react-native';
-
-// Replace this with your actual logo
 import driveLogo from '../assets/drivelogo.png';
 
 export default function WelcomeScreen({ onStart }) {

@@ -8,7 +8,10 @@ import {
   Switch,
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import AccountSettings from './AccountSettings'; // ✅ FIXED IMPORT
+import AccountSettings from './AccountSettings'; 
+import About from './About';
+import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfService from './TermsOfService';
 
 export default function Menu({
   onNavigate,
@@ -18,6 +21,9 @@ export default function Menu({
   const [darkMode, setDarkMode] = useState(false);
   const [showAccountSettings, setShowAccountSettings] = useState(false);
   const [activeTab, setActiveTab] = useState('menu');
+  const [showAbout, setShowAbout] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const menuItems = [
     {
@@ -37,17 +43,17 @@ export default function Menu({
     {
       icon: <Ionicons name="shield" size={20} color="#2563EB" />,
       label: 'Privacy Policy',
-      action: () => {},
+      action: () => setShowPrivacyPolicy(true),
     },
     {
       icon: <Feather name="file-text" size={20} color="#2563EB" />,
       label: 'Terms of Service',
-      action: () => {},
+      action: () => setShowTerms(true),
     },
     {
       icon: <Feather name="info" size={20} color="#2563EB" />,
       label: 'About',
-      action: () => {},
+      action: () => setShowAbout(true),
     },
     {
       icon: <Feather name="log-out" size={20} color="#DC2626" />,
@@ -56,7 +62,6 @@ export default function Menu({
     },
   ];
 
-  /* Show Account Settings */
   if (showAccountSettings) {
     return (
       <AccountSettings
@@ -67,9 +72,20 @@ export default function Menu({
     );
   }
 
+  if (showAbout) {
+  return <About onBack={() => setShowAbout(false)} />;
+  }
+
+  if (showPrivacyPolicy) {
+  return <PrivacyPolicy onBack={() => setShowPrivacyPolicy(false)} />;
+  }
+  
+  if (showTerms) {
+  return <TermsOfService onBack={() => setShowTerms(false)} />;
+  }
+
   return (
     <View style={styles.container}>
-      {/* Profile Header */}
       <TouchableOpacity
         style={styles.profileCard}
         onPress={() => setShowAccountSettings(true)}
@@ -84,7 +100,6 @@ export default function Menu({
         <Ionicons name="chevron-forward" size={20} color="white" />
       </TouchableOpacity>
 
-      {/* Menu Items */}
       <ScrollView style={{ flex: 1 }}>
         {menuItems.map((item, index) => (
           <TouchableOpacity

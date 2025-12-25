@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import * as Location from 'expo-location';
 
-/* Screens */
 import SplashScreen from './screens/SplashScreen';
 import OnboardingFlow from './screens/OnboardingFlow';
 import LoginScreen from './screens/LoginScreen';
@@ -10,11 +9,9 @@ import SignupScreen from './screens/SignupScreen';
 import OTPConfirmation from './screens/OTPConfirmation';
 import WelcomeScreen from './screens/WelcomeScreen';
 
-/* Auth / Password */
 import ForgotPassword from './components/specific/ForgotPassword';
 import NewPassword from './components/specific/NewPassword';
 
-/* Main App Screens */
 import Dashboard from './components/specific/Dashboard';
 import History from './components/specific/History';
 import LocationView from './components/specific/LocationView';
@@ -28,12 +25,10 @@ export default function App() {
   const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(null);
 
-  /* ================= Splash / Onboarding ================= */
   const handleSplashComplete = () => setCurrentScreen('welcome');
   const handleWelcomeComplete = () => setCurrentScreen('onboarding');
   const handleOnboardingComplete = () => setCurrentScreen('login');
 
-  /* ================= Login / Signup ================= */
   const handleLogin = (phone) => {
     setPhoneNumber(phone);
     setCurrentScreen('login-otp');
@@ -45,7 +40,6 @@ export default function App() {
     setCurrentScreen('signup-otp');
   };
 
-  /* ================= LOCATION PERMISSION ================= */
   const requestLocationPermission = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -75,7 +69,6 @@ export default function App() {
     }
   };
 
-  /* ================= OTP CONFIRMATION ================= */
   const handleOTPConfirm = async () => {
   const granted = await requestLocationPermission();
   if (granted) setCurrentScreen('dashboard');
@@ -89,8 +82,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
   }
 };
 
-
-  /* ================= Forgot Password ================= */
   const handleForgotPassword = () => setCurrentScreen('forgot-password');
   const handleForgotPasswordSubmit = (phone) => {
     setPhoneNumber(phone);
@@ -100,33 +91,27 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
   const handlePasswordReset = () => setCurrentScreen('login');
   
   const handleLogout = () => {
-  setLocationPermissionGranted(false); // reset permission state
+  setLocationPermissionGranted(false); 
   setCurrentScreen('login');
 };
 
 <Menu onNavigate={handleNavigate} onLogout={handleLogout} />
-
-  /* ================= Navigation ================= */
   const handleNavigate = (screen) => setCurrentScreen(screen);
 
   return (
     <View style={styles.container}>
-      {/* Splash Screen */}
       {currentScreen === 'splash' && (
         <SplashScreen onComplete={handleSplashComplete} />
       )}
 
-      {/* Welcome Screen */}
       {currentScreen === 'welcome' && (
         <WelcomeScreen onStart={() => setCurrentScreen('onboarding')} />
       )}
 
-      {/* Onboarding */}
       {currentScreen === 'onboarding' && (
         <OnboardingFlow onComplete={handleOnboardingComplete} />
       )}
 
-      {/* Login */}
       {currentScreen === 'login' && (
         <LoginScreen
           onLogin={handleLogin}
@@ -135,7 +120,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* Login OTP */}
       {currentScreen === 'login-otp' && (
         <OTPConfirmation
           phoneNumber={phoneNumber}
@@ -144,7 +128,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* Signup */}
       {currentScreen === 'signup' && (
         <SignupScreen
           onSignup={handleSignup}
@@ -152,7 +135,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* Signup OTP */}
       {currentScreen === 'signup-otp' && (
         <OTPConfirmation
           phoneNumber={phoneNumber}
@@ -161,7 +143,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* Forgot Password */}
       {currentScreen === 'forgot-password' && (
         <ForgotPassword
           onSubmit={handleForgotPasswordSubmit}
@@ -169,7 +150,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* Forgot OTP */}
       {currentScreen === 'forgot-otp' && (
         <OTPConfirmation
           phoneNumber={phoneNumber}
@@ -179,7 +159,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* New Password */}
       {currentScreen === 'new-password' && (
         <NewPassword
           onSubmit={handlePasswordReset}
@@ -187,7 +166,6 @@ const handleSignupOTPConfirm = async (enteredOTP) => {
         />
       )}
 
-      {/* Main App Screens */}
       {currentScreen === 'dashboard' && (
         <Dashboard
           onNavigate={handleNavigate}
