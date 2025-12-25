@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
-import driverImage from '../../assets/driver.png';
+import driverImage from '../assets/driver.png';
 
 export default function Dashboard({ onNavigate }) {
   const [selectedMonitoring, setSelectedMonitoring] = useState(null);
@@ -67,7 +67,7 @@ export default function Dashboard({ onNavigate }) {
           zIndex: 10,
         }}
       >
-        <Ionicons name="person-outline" size={26} color="white" />
+        <Feather name="bell" size={26} color="white" />
       </TouchableOpacity>
 
       <View style={{ alignItems: 'center', marginTop: 60, zIndex: 5 }}>
@@ -161,12 +161,12 @@ export default function Dashboard({ onNavigate }) {
             onPress={() => setSelectedMonitoring('eye')}
           />
           <MonitoringButton
-            icon={<Ionicons name="car-sport" size={30} color="#38BDF8" />}
+            icon={<MaterialCommunityIcons name="steering" size={30} color="#38BDF8" />}
             label="HAND ON STEERING WHEEL"
             onPress={() => setSelectedMonitoring('steering')}
           />
           <MonitoringButton
-            icon={<MaterialCommunityIcons name="yawn" size={30} color="#38BDF8" />}
+            icon={<Ionicons name="car-sport" size={30} color="#38BDF8" />}
             label="YAWNING"
             onPress={() => setSelectedMonitoring('yawn')}
           />

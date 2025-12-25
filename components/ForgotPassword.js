@@ -30,7 +30,6 @@ export default function ForgotPassword({ onBack, onSubmit }) {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
         <Feather name="chevron-left" size={24} color="#111827" />
         <Text style={styles.backText}>Forgot Password</Text>

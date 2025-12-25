@@ -4,9 +4,11 @@ import {
   Text,
   TextInput,
   Pressable,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  Image
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function SignupScreen({ onSignup, onBackToLogin }) {
   const [firstName, setFirstName] = useState('');
@@ -64,48 +66,46 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
   if (showTerms) {
     return (
       <View style={styles.container}>
-        <Pressable onPress={() => setShowTerms(false)} style={styles.backButton}>
-          <Text style={styles.backText}>← Back</Text>
+        <Pressable style={styles.backButton} onPress={() => setShowTerms(false)}>
+          <Ionicons name="chevron-back" size={24} color="#111827" />
+          <Text style={styles.backText}>Back</Text>
         </Pressable>
 
         <Text style={styles.title}>Terms and Conditions</Text>
-
         <ScrollView style={styles.termsContainer}>
           <Text style={styles.sectionTitle}>1. Acceptance of Terms</Text>
           <Text style={styles.paragraph}>
-            By using the DRIVE application, you agree to these Terms and Conditions.
+            By using the DRIVE drowsiness detection application, you agree to be bound by these Terms and Conditions.
           </Text>
 
           <Text style={styles.sectionTitle}>2. Use of Service</Text>
           <Text style={styles.paragraph}>
-            DRIVE assists in detecting driver drowsiness. It does not replace
-            responsible driving.
+            The DRIVE app monitors driver drowsiness and provides alerts. It does not replace responsible driving.
           </Text>
 
           <Text style={styles.sectionTitle}>3. Data Collection</Text>
           <Text style={styles.paragraph}>
-            The app may collect drowsiness-related data and location data for
-            safety alerts only.
+            The app collects data including eye-lid monitoring, steering wheel grip, yawning, head tilting, and location during drowsiness events.
           </Text>
 
           <Text style={styles.sectionTitle}>4. Privacy</Text>
           <Text style={styles.paragraph}>
-            Your data is stored securely and not shared without consent.
+            Your data is stored securely and will not be shared without consent, except as required by law.
           </Text>
 
           <Text style={styles.sectionTitle}>5. Liability</Text>
           <Text style={styles.paragraph}>
-            DRIVE is an assistive tool. The driver remains responsible for safety.
+            DRIVE is an assistive technology. Users remain responsible for safe driving.
           </Text>
 
           <Text style={styles.sectionTitle}>6. Emergency Contacts</Text>
           <Text style={styles.paragraph}>
-            You authorize alerts to emergency contacts in critical events.
+            You authorize the app to contact your emergency contacts in critical events.
           </Text>
 
           <Text style={styles.sectionTitle}>7. Updates</Text>
           <Text style={styles.paragraph}>
-            Terms may be updated at any time.
+            Terms may be updated at any time. Continued use constitutes acceptance.
           </Text>
         </ScrollView>
 
@@ -119,7 +119,8 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Pressable onPress={onBackToLogin} style={styles.backButton}>
-        <Text style={styles.backText}>← Back to Login</Text>
+        <Ionicons name="chevron-back" size={24} color="#111827" />
+        <Text style={styles.backText}>Back to Login</Text>
       </Pressable>
 
       <Text style={styles.title}>Create Account</Text>
@@ -155,14 +156,22 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
       {errors.terms && <Text style={styles.error}>{errors.terms}</Text>}
 
       <Pressable
-        style={[
-          styles.primaryButton,
-          !agreedToTerms && styles.disabledButton,
-        ]}
+        style={[styles.primaryButton, !agreedToTerms && styles.disabledButton]}
         disabled={!agreedToTerms}
         onPress={handleSubmit}
       >
         <Text style={styles.primaryText}>Sign Up</Text>
+      </Pressable>
+
+      <Pressable
+        style={styles.googleButton}
+        onPress={() => onSignup({ firstName: 'Google', lastName: 'User', phone: 'google', password: '' })}
+      >
+        <Image
+          source={{ uri: 'https://registry.npmmirror.com/@lobehub/icons-static-png/1.75.0/files/dark/google-color.png' }}
+          style={{ width: 18, height: 18, marginRight: 10 }}
+        />
+        <Text style={styles.googleText}>Continue with Google</Text>
       </Pressable>
     </ScrollView>
   );
@@ -184,93 +193,34 @@ function renderInput(label, value, onChange, keyboardType = 'default', secure = 
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#ffffff',
-    padding: 24,
-  },
-  backButton: {
-    marginBottom: 16,
-  },
-  backText: {
-    fontSize: 16,
-    color: '#111827',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 24,
-  },
-  field: {
-    marginBottom: 12,
-  },
-  label: {
-    fontSize: 14,
-    marginBottom: 6,
-    color: '#374151',
-  },
-  input: {
-    height: 48,
+  container: { flexGrow: 1, backgroundColor: '#fff', padding: 24 },
+  backButton: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  backText: { fontSize: 16, color: '#111827', marginLeft: 8 },
+  title: { fontSize: 24, fontWeight: '600', marginBottom: 4 },
+  subtitle: { fontSize: 14, color: '#6B7280', marginBottom: 24 },
+  field: { marginBottom: 12 },
+  label: { fontSize: 14, marginBottom: 6, color: '#374151' },
+  input: { height: 48, borderWidth: 1, borderColor: '#D1D5DB', borderRadius: 8, paddingHorizontal: 12 },
+  error: { color: '#DC2626', fontSize: 12, marginBottom: 8 },
+  termsRow: { flexDirection: 'row', alignItems: 'flex-start', marginVertical: 12 },
+  checkbox: { fontSize: 18, marginRight: 8 },
+  termsText: { fontSize: 14, color: '#374151', flex: 1 },
+  link: { color: '#2563EB' },
+  primaryButton: { backgroundColor: '#1E3A8A', height: 48, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop: 16 },
+  disabledButton: { opacity: 0.5 },
+  primaryText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  termsContainer: { flex: 1, marginVertical: 16 },
+  sectionTitle: { fontSize: 16, fontWeight: '600', marginTop: 12 },
+  paragraph: { fontSize: 14, color: '#374151', marginTop: 4 },
+  googleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#D1D5DB',
     borderRadius: 8,
-    paddingHorizontal: 12,
-  },
-  error: {
-    color: '#DC2626',
-    fontSize: 12,
-    marginBottom: 8,
-  },
-  termsRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginVertical: 12,
-  },
-  checkbox: {
-    fontSize: 18,
-    marginRight: 8,
-  },
-  termsText: {
-    fontSize: 14,
-    color: '#374151',
-    flex: 1,
-  },
-  link: {
-    color: '#2563EB',
-  },
-  primaryButton: {
-    backgroundColor: '#1E3A8A',
     height: 48,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  disabledButton: {
-    opacity: 0.5,
-  },
-  primaryText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  termsContainer: {
-    flex: 1,
-    marginVertical: 16,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
     marginTop: 12,
   },
-  paragraph: {
-    fontSize: 14,
-    color: '#374151',
-    marginTop: 4,
-  },
+  googleText: { fontSize: 16, color: '#374151' },
 });
