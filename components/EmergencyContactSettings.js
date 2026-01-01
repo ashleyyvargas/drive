@@ -105,7 +105,7 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
                 </View>
                 <View>
                   <Text style={[styles.name, { color: theme.text }]}>Emergency Contact</Text>
-                  <Text style={[styles.email, { color: theme.subText }]}>contact@email.com</Text>
+                  <Text style={[styles.email, { color: theme.subText }]}>+63 912 345 6789</Text>
                 </View>
               </View>
             </View>
