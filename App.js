@@ -39,7 +39,6 @@ export default function App() {
   const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(null);
 
-  /* ================= LOCATION ================= */
 
   const requestLocationPermission = async () => {
     try {
@@ -69,7 +68,6 @@ export default function App() {
     }
   };
 
-  /* ================= AUTH FLOW ================= */
 
   const handleLogin = (phone) => {
     setPhoneNumber(phone);
@@ -98,14 +96,12 @@ export default function App() {
     }
   };
 
-  /* ================= PASSWORD ================= */
 
   const handleForgotPasswordSubmit = (phone) => {
     setPhoneNumber(phone);
     setCurrentScreen('forgot-otp');
   };
 
-  /* ================= NAVIGATION ================= */
 
   const handleNavigate = (screen) => setCurrentScreen(screen);
 
@@ -130,11 +126,9 @@ export default function App() {
     setCurrentScreen('login');
   };
 
-  /* ================= UI ================= */
-
+  
   return (
     <View style={styles.container}>
-      {/* SPLASH / ONBOARDING */}
       {currentScreen === 'splash' && (
         <SplashScreen onComplete={() => setCurrentScreen('welcome')} />
       )}
@@ -263,7 +257,7 @@ export default function App() {
       {currentScreen === 'connected-accounts' && (
   <ConnectedAccountsScreen
     onNavigate={handleNavigate}
-    isDarkMode={false} // or pass your dark mode state if needed
+    isDarkMode={false} 
   />
 )}
 
