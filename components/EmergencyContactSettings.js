@@ -29,7 +29,7 @@ const darkTheme = {
   subText: '#94A3B8',
   divider: '#334155',
   primary: '#3B82F6',
-  secondary: '#1E40AF',
+  secondary: '#e3e6f0ff',
   danger: '#F87171',
   navInactive: '#64748B',
 };

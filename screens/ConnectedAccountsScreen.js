@@ -128,7 +128,7 @@ backText: {
 },
   headerTitle: { color: '#FFF', fontSize: 24, fontWeight: '600' },
   headerSubtitle: { color: '#DBEAFE', fontSize: 14, marginTop: 4 },
-  card: { borderRadius: 12, padding: 16, marginHorizontal: 16, marginVertical: 8 },
+  card: { borderRadius: 12, padding: 16, marginHorizontal: 16, marginVertical: 4 },
   rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   itemTitle: { fontSize: 16, fontWeight: '500' },
