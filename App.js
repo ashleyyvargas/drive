@@ -83,16 +83,16 @@ export default function App() {
   const handleOTPConfirm = async () => {
     const granted = await requestLocationPermission();
     if (granted) {
-      setUserMode('driver');
-      setCurrentScreen('dashboard');
+      setUserMode('emergency-contact');
+      setCurrentScreen('ec-dashboard');
     }
   };
 
   const handleSignupOTPConfirm = async () => {
     const granted = await requestLocationPermission();
     if (granted) {
-      setUserMode('driver');
-      setCurrentScreen('dashboard');
+      setUserMode('emergency-contact');
+      setCurrentScreen('ec-dashboard');
     }
   };
 

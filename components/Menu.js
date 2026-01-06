@@ -14,12 +14,13 @@ import AccountSettings from './AccountSettings';
 import About from './About';
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfService from './TermsOfService';
+import { lightTheme, darkTheme } from './theme';
 
 export default function Menu({
   onNavigate,
   onSwitchToDriver,
   onSwitchToEmergencyContact,
-  handleLogout,
+  onLogout,
   userName = 'Teddy Dela Cruz',
   userPhone = '+63 912 345 6789',
 }) {
@@ -33,76 +34,57 @@ export default function Menu({
   const [showEmergencyConfirm, setShowEmergencyConfirm] = useState(false);
   const [pendingEmergencyValue, setPendingEmergencyValue] = useState(false);
 
+  const theme = darkMode ? darkTheme : lightTheme;
 
   const handleEmergencyContactToggle = (value) => {
-  // Save intended value and show confirmation modal
-  setPendingEmergencyValue(value);
-  setShowEmergencyConfirm(true);
-};
+    setPendingEmergencyValue(value);
+    setShowEmergencyConfirm(true);
+  };
 
-const confirmEmergencySwitch = () => {
-  setShowEmergencyConfirm(false);
-  setIsEmergencyContactMode(pendingEmergencyValue);
+  const confirmEmergencySwitch = () => {
+    setShowEmergencyConfirm(false);
+    setIsEmergencyContactMode(pendingEmergencyValue);
+    pendingEmergencyValue
+      ? onSwitchToEmergencyContact?.()
+      : onSwitchToDriver?.();
+  };
 
-  if (pendingEmergencyValue) {
-    onSwitchToEmergencyContact && onSwitchToEmergencyContact();
-  } else {
-    onSwitchToDriver && onSwitchToDriver();
-  }
-};
-
-const cancelEmergencySwitch = () => {
-  setShowEmergencyConfirm(false);
-  setPendingEmergencyValue(isEmergencyContactMode);
-};
-
-
-  const theme = {
-    background: darkMode ? '#1F2937' : 'white',
-    cardBackground: darkMode ? '#374151' : '#1E40AF',
-    toggleBackground: darkMode ? '#4B5563' : '#F3F4F6',
-    toggleIconBackground: darkMode ? '#2563EB' : '#DBEAFE',
-    textPrimary: darkMode ? 'white' : '#111827',
-    textSecondary: darkMode ? '#D1D5DB' : '#6B7280',
-    iconColor: darkMode ? '#2563EB' : '#2563EB',
-    navActiveBackground: '#3B82F6',
-    navActiveText: 'white',
-    navInactiveText: darkMode ? '#D1D5DB' : '#3B82F6',
-    navBackground: darkMode ? '#111827' : 'white',
-    borderColor: darkMode ? '#4B5563' : '#F3F4F6',
+  const cancelEmergencySwitch = () => {
+    setShowEmergencyConfirm(false);
+    setPendingEmergencyValue(isEmergencyContactMode);
   };
 
   const menuItems = [
     {
-      icon: <Ionicons name="moon" size={20} color={darkMode ? 'white' : '#2563EB'} />,
+      icon: <Ionicons name="moon" size={20} color={theme.primary} />,
       label: 'Dark Mode',
       action: () => setDarkMode(!darkMode),
       isSwitch: true,
       switchValue: darkMode,
     },
     {
-      icon: <Ionicons name="shield" size={20} color={darkMode ? 'white' : '#2563EB'} />,
+      icon: <Ionicons name="shield" size={20} color={theme.primary} />,
       label: 'Privacy Policy',
       action: () => setShowPrivacyPolicy(true),
     },
     {
-      icon: <Feather name="file-text" size={20} color={darkMode ? 'white' : '#2563EB'} />,
+      icon: <Feather name="file-text" size={20} color={theme.primary} />,
       label: 'Terms of Service',
       action: () => setShowTerms(true),
     },
     {
-      icon: <Feather name="info" size={20} color={darkMode ? 'white' : '#2563EB'} />,
+      icon: <Feather name="info" size={20} color={theme.primary} />,
       label: 'About',
       action: () => setShowAbout(true),
     },
     {
-      icon: <Feather name="log-out" size={20} color="#DC2626" />,
+      icon: <Feather name="log-out" size={20} color={theme.danger} />,
       label: 'Log Out',
       action: () => setShowLogoutConfirm(true),
     },
   ];
 
-  if (showAccountSettings) {
+  if (showAccountSettings)
     return (
       <AccountSettings
         userName={userName}
@@ -111,7 +93,6 @@ const cancelEmergencySwitch = () => {
         darkMode={darkMode}
       />
     );
-  }
 
   if (showAbout) return <About onBack={() => setShowAbout(false)} darkMode={darkMode} />;
   if (showPrivacyPolicy)
@@ -120,66 +101,69 @@ const cancelEmergencySwitch = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Profile */}
       <TouchableOpacity
-        style={[styles.profileCard, { backgroundColor: theme.cardBackground }]}
+        style={[styles.profileCard, { backgroundColor: theme.primary }]}
         onPress={() => setShowAccountSettings(true)}
       >
-        <View style={[styles.avatar, { backgroundColor: theme.iconColor }]}>
-          <Ionicons name="person" size={32} color="white" />
+        <View style={styles.avatar}>
+          <Ionicons name="person" size={32} color='white' />
         </View>
         <View style={{ flex: 1, marginLeft: 12 }}>
           <Text style={[styles.userName, { color: 'white' }]}>{userName}</Text>
-          <Text style={[styles.userPhone, { color: 'white' }]}>{userPhone}</Text>
+          <Text style={[styles.userPhone, { color: 'white', opacity: 0.9 }]}>{userPhone}</Text>
         </View>
-        <Ionicons name="chevron-forward" size={20} color="white" />
+        <Ionicons name="chevron-forward" size={20} color= 'white' />
       </TouchableOpacity>
 
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.toggleContainer}>
-          <Text style={[styles.toggleTitle, { color: theme.textPrimary }]}>Mode</Text>
-          <View style={[styles.toggleItem, { backgroundColor: theme.toggleBackground, borderColor: theme.borderColor, borderWidth: 1 }]}>
+      <ScrollView>
+        {/* Mode Toggle */}
+        <View style={{ paddingHorizontal: 16 }}>
+          <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Mode</Text>
+
+          <View
+            style={[
+              styles.modeCard,
+              { backgroundColor: theme.surface, borderColor: theme.divider },
+            ]}
+          >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={[styles.toggleIcon, { backgroundColor: theme.toggleIconBackground }]}>
-                <AntDesign name="user-switch" size={20} color={darkMode ? 'white' : '#2563EB'} />
+              <View style={[styles.modeIcon, { backgroundColor: theme.primarySoft }]}>
+                <AntDesign name="user-switch" size={20} color={theme.primary} />
               </View>
               <View style={{ marginLeft: 12 }}>
-                <Text style={[styles.toggleLabel, { color: theme.textPrimary }]}>
+                <Text style={[styles.modeTitle, { color: theme.textPrimary }]}>
                   Emergency Contact Person
                 </Text>
-                <Text style={[styles.toggleSubLabel, { color: theme.textSecondary }]}>
-                  Switch to monitor connected drivers
+                <Text style={[styles.modeSub, { color: theme.textSecondary }]}>
+                  Monitor connected drivers
                 </Text>
               </View>
             </View>
-            <TouchableOpacity onPress={() => handleEmergencyContactToggle(!isEmergencyContactMode)}>
-              <Switch
-                value={isEmergencyContactMode}
-                disabled
-                trackColor={{ false: '#D1D5DB', true: '#2563EB' }}
-                thumbColor="white"
-              />
-            </TouchableOpacity>
+
+            <Switch
+              value={isEmergencyContactMode}
+              onValueChange={handleEmergencyContactToggle}
+            />
           </View>
         </View>
 
-
+        {/* Menu Items */}
         {menuItems.map((item, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.menuItem, { borderColor: theme.borderColor }]}
+            style={[styles.menuItem, { borderColor: theme.divider }]}
             onPress={item.action}
           >
-            <View style={styles.menuItemLeft}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               {item.icon}
-              <Text style={[styles.menuLabel, { color: theme.textPrimary }]}>{item.label}</Text>
+              <Text style={[styles.menuLabel, { color: theme.textPrimary }]}>
+                {item.label}
+              </Text>
             </View>
+
             {item.isSwitch ? (
-              <Switch
-                value={item.switchValue}
-                onValueChange={item.action}
-                trackColor={{ false: '#D1D5DB', true: '#2563EB' }}
-                thumbColor="white"
-              />
+              <Switch value={item.switchValue} onValueChange={item.action} />
             ) : (
               <Ionicons name="chevron-forward" size={20} color={theme.textSecondary} />
             )}
@@ -187,117 +171,47 @@ const cancelEmergencySwitch = () => {
         ))}
       </ScrollView>
 
-
-      <View style={[styles.navbar, { backgroundColor: theme.navBackground }]}>
-        <NavItem
-          icon="home"
-          label="Home"
-          onPress={() => onNavigate('dashboard')}
-          active={false}
-          theme={theme}
-        />
-        <NavItem
-          icon="clock"
-          label="History"
-          onPress={() => onNavigate('history')}
-          active={false}
-          theme={theme}
-        />
-        <NavItem
-          icon="map-pin"
-          label="Location"
-          onPress={() => onNavigate('location')}
-          active={false}
-          theme={theme}
-        />
-        <NavItem
-          icon="users"
-          label="Contacts"
-          onPress={() => onNavigate('contacts')}
-          active={false}
-          theme={theme}
-        />
-        <NavItem
-          icon="menu"
-          label="Menu"
-          onPress={() => onNavigate('menu')}
-          active
-          theme={theme}
-        />
+      {/* Bottom Nav */}
+      <View style={[styles.navbar, { borderColor: theme.divider }]}>
+        <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} theme={theme} />
+        <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} theme={theme} />
+        <NavItem icon="map-pin" label="Location" onPress={() => onNavigate('location')} theme={theme} />
+        <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} theme={theme} />
+        <NavItem icon="menu" label="Menu" active theme={theme} />
       </View>
-      <Modal
-  transparent
-  visible={showEmergencyConfirm}
-  animationType="fade"
->
-  <View style={styles.modalOverlay}>
-    <View style={styles.modalBox}>
-      <Text style={styles.modalTitle}>
-        Switch Mode?
-      </Text>
-      <Text style={styles.modalText}>
-        {pendingEmergencyValue
-          ? 'Switch to Emergency Contact mode?'
-          : 'Switch back to Driver mode?'}
-      </Text>
 
-      <View style={styles.modalActions}>
-        <Pressable
-          style={[styles.modalButton, styles.cancelButton]}
-          onPress={cancelEmergencySwitch}
-        >
-          <Text style={styles.cancelText}>Cancel</Text>
-        </Pressable>
+      {/* Emergency Confirm Modal */}
+      <ConfirmModal
+        visible={showEmergencyConfirm}
+        title="Switch Mode?"
+        message={
+          pendingEmergencyValue
+            ? 'Switch to Emergency Contact mode?'
+            : 'Switch back to Driver mode?'
+        }
+        onCancel={cancelEmergencySwitch}
+        onConfirm={confirmEmergencySwitch}
+        theme={theme}
+      />
 
-        <Pressable
-          style={[styles.modalButton, styles.confirmButton]}
-          onPress={confirmEmergencySwitch}
-        >
-          <Text style={styles.confirmText}>Confirm</Text>
-        </Pressable>
-      </View>
-    </View>
-  </View>
-</Modal>
-
-<Modal
-  transparent
-  visible={showLogoutConfirm}
-  animationType="fade"
->
-  <View style={styles.modalOverlay}>
-    <View style={styles.modalBox}>
-      <Text style={styles.modalTitle}>Log Out</Text>
-      <Text style={styles.modalText}>
-        Are you sure you want to log out?
-      </Text>
-
-      <View style={styles.modalActions}>
-        <Pressable
-          style={[styles.modalButton, styles.cancelButton]}
-          onPress={() => setShowLogoutConfirm(false)}
-        >
-          <Text style={styles.cancelText}>Cancel</Text>
-        </Pressable>
-
-        <Pressable
-          style={[styles.modalButton, styles.confirmButton]}
-          onPress={() => {
-            setShowLogoutConfirm(false);
-            handleLogout();
-          }}
-        >
-          <Text style={styles.confirmText}>Log Out</Text>
-        </Pressable>
-      </View>
-    </View>
-  </View>
-</Modal>
-
+      {/* Logout Modal */}
+      <ConfirmModal
+        visible={showLogoutConfirm}
+        title="Log Out"
+        message="Are you sure you want to log out?"
+        onCancel={() => setShowLogoutConfirm(false)}
+        onConfirm={() => {
+          setShowLogoutConfirm(false);
+          onLogout();
+        }}
+        confirmText="Log Out"
+        theme={theme}
+      />
     </View>
   );
 }
 
+/* Bottom Nav Item */
 function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>
@@ -306,15 +220,45 @@ function NavItem({ icon, label, onPress, active, theme }) {
           width: 40,
           height: 40,
           borderRadius: 20,
-          backgroundColor: active ? theme.navActiveBackground : theme.navBackground,
+          backgroundColor: active ? theme.primarySoft : 'transparent',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Feather name={icon} size={18} color={active ? theme.navActiveText : theme.navInactiveText} />
+        <Feather name={icon} size={18} color={active ? theme.primary : theme.textSecondary} />
       </View>
-      <Text style={{ color: theme.navInactiveText, fontSize: 12, marginTop: 4 }}>{label}</Text>
+      <Text style={{ fontSize: 12, color: active ? theme.primary : theme.textSecondary, marginTop: 4 }}>
+        {label}
+      </Text>
     </TouchableOpacity>
+  );
+}
+
+/* Reusable Modal */
+function ConfirmModal({ visible, title, message, onCancel, onConfirm, confirmText = 'Confirm', theme }) {
+  return (
+    <Modal transparent visible={visible} animationType="fade">
+      <View style={[styles.modalOverlay]}>
+        <View style={[styles.modalBox, { backgroundColor: theme.background }]}>
+          <Text style={[styles.modalTitle, { color: theme.textPrimary }]}>{title}</Text>
+          <Text style={[styles.modalText, { color: theme.textSecondary }]}>{message}</Text>
+          <View style={styles.modalActions}>
+            <Pressable
+              style={[styles.cancelBtn, { backgroundColor: theme.divider }]}
+              onPress={onCancel}
+            >
+              <Text style={{ color: theme.textPrimary }}>Cancel</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.confirmBtn, { backgroundColor: theme.primary }]}
+              onPress={onConfirm}
+            >
+              <Text style={{ color: theme.background }}>{confirmText}</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }
 
@@ -325,95 +269,74 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     margin: 16,
-    borderRadius: 12,
+    borderRadius: 16,
   },
   avatar: {
     width: 64,
     height: 64,
     borderRadius: 32,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  userName: { fontSize: 18, fontWeight: 'bold' },
-  userPhone: { fontSize: 14, opacity: 0.9 },
-  toggleContainer: { paddingHorizontal: 16 },
-  toggleTitle: { fontSize: 14, marginBottom: 8, fontWeight: 'bold' },
-  toggleItem: {
+  userName: { fontSize: 18, fontWeight: '700' },
+  userPhone: { fontSize: 14 },
+  sectionTitle: { fontSize: 14, fontWeight: '600', marginVertical: 12 },
+  modeCard: {
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 12,
-    borderRadius: 12,
   },
-  toggleIcon: {
+  modeIcon: {
     width: 36,
     height: 36,
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  toggleLabel: { fontSize: 14, fontWeight: '500' },
-  toggleSubLabel: { fontSize: 12 },
+  modeTitle: { fontSize: 14, fontWeight: '600' },
+  modeSub: { fontSize: 12 },
   menuItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  menuItemLeft: { flexDirection: 'row', alignItems: 'center' },
   menuLabel: { fontSize: 16, marginLeft: 12 },
   navbar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 12,
+    borderTopWidth: 1,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalBox: {
     width: '85%',
-    backgroundColor: 'white',
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 20,
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  modalText: {
-    fontSize: 14,
-    color: '#374151',
-    marginBottom: 20,
-  },
-  modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  modalButton: {
+  modalTitle: { fontSize: 18, fontWeight: '700', marginBottom: 8 },
+  modalText: { fontSize: 14, marginBottom: 20 },
+  modalActions: { flexDirection: 'row', justifyContent: 'flex-end' },
+  cancelBtn: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 8,
-    marginLeft: 8,
+    marginRight: 8,
   },
-  cancelButton: {
-    backgroundColor: '#E5E7EB',
+  confirmBtn: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
   },
-  confirmButton: {
-    backgroundColor: '#2563EB',
-  },
-  cancelText: {
-    color: '#111827',
-    fontWeight: '500',
-  },
-  confirmText: {
-    color: 'white',
-    fontWeight: '600',
-  },
-
 });

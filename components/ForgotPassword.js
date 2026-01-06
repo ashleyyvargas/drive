@@ -6,10 +6,16 @@ import {
   TouchableOpacity,
   Alert,
   StyleSheet,
+  useColorScheme,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { lightTheme, darkTheme } from './theme'; 
 
 export default function ForgotPassword({ onBack, onSubmit }) {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
 
@@ -29,42 +35,43 @@ export default function ForgotPassword({ onBack, onSubmit }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <TouchableOpacity style={styles.backButton} onPress={onBack}>
-        <Feather name="chevron-left" size={24} color="#111827" />
-        <Text style={styles.backText}>Forgot Password</Text>
+        <Feather name="chevron-left" size={24} color={theme.text} />
+        <Text style={[styles.backText, { color: theme.text }]}>Forgot Password</Text>
       </TouchableOpacity>
 
       <View style={styles.content}>
         <View style={styles.iconWrapper}>
-          <View style={styles.circleBackground}>
-            <Text style={styles.questionMark}>?</Text>
+          <View style={[styles.circleBackground, { backgroundColor: theme.card }]}>
+            <MaterialIcons name="password" size={48} color={theme.primary} />
           </View>
         </View>
 
-        <Text style={styles.title}>Forgot Password?</Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.title, { color: theme.text }]}>Forgot Password?</Text>
+        <Text style={[styles.subtitle, { color: theme.subText }]}>
           Enter your phone number to reset your password.
         </Text>
 
         <View style={styles.form}>
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Phone Number</Text>
-            <View style={styles.inputContainer}>
-              <Text style={styles.prefix}>📱</Text>
+            <Text style={[styles.label, { color: theme.text }]}>Phone Number</Text>
+            <View style={[styles.inputContainer, { borderColor: theme.divider }]}>
+              <Feather name="phone" size={20} color={theme.text} style={{ marginRight: 8 }} />
               <TextInput
-                style={styles.input}
+                style={[styles.input, { color: theme.text }]}
                 placeholder="+63"
+                placeholderTextColor={theme.subText}
                 keyboardType="phone-pad"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
               />
             </View>
-            {error ? <Text style={styles.error}>{error}</Text> : null}
+            {error ? <Text style={[styles.error, { color: theme.danger }]}>{error}</Text> : null}
           </View>
 
-          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-            <Text style={styles.submitButtonText}>Submit</Text>
+          <TouchableOpacity style={[styles.submitButton, { backgroundColor: theme.primary }]} onPress={handleSubmit}>
+            <Text style={[styles.submitButtonText, { color: theme.card }]}>Submit</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -76,7 +83,6 @@ export default function ForgotPassword({ onBack, onSubmit }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
     paddingHorizontal: 24,
     paddingTop: 48,
   },
@@ -87,7 +93,6 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-    color: '#111827',
     marginLeft: 8,
     fontWeight: '500',
   },
@@ -102,25 +107,21 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: '#DBEAFE',
     alignItems: 'center',
     justifyContent: 'center',
   },
   questionMark: {
     fontSize: 48,
-    color: '#2563EB',
     fontWeight: 'bold',
   },
   title: {
     fontSize: 24,
     fontWeight: '600',
-    color: '#111827',
     textAlign: 'center',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: '#6B7280',
     textAlign: 'center',
     marginBottom: 32,
   },
@@ -132,14 +133,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: '#374151',
     marginBottom: 4,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#D1D5DB',
     borderRadius: 12,
     height: 48,
     paddingHorizontal: 12,
@@ -151,15 +150,12 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: '#111827',
   },
   error: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
   },
   submitButton: {
-    backgroundColor: '#1E40AF',
     borderRadius: 12,
     height: 48,
     alignItems: 'center',
@@ -167,7 +163,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   submitButtonText: {
-    color: '#ffffff',
     fontSize: 16,
     fontWeight: '600',
   },

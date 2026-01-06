@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '600',
     letterSpacing: 2,
-    color: '#102671',
+    color: '#364d9bff',
   },
 });

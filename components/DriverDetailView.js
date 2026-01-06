@@ -7,10 +7,11 @@ import {
   ScrollView,
   Alert,
   Linking,
+  useColorScheme,
 } from 'react-native';
 import MapView, { Marker, AnimatedRegion, Polyline } from 'react-native-maps';
 import { Feather, Ionicons } from '@expo/vector-icons';
-
+import { lightTheme, darkTheme } from './theme';
 
 const mockDriverData = {
   '1': {
@@ -20,36 +21,27 @@ const mockDriverData = {
   },
 };
 
-
 const RISK_CONFIG = {
-  safe: {
-    label: 'SAFE',
-    color: '#16A34A',
-    bg: '#DCFCE7',
-  },
-  warning: {
-    label: 'WARNING',
-    color: '#CA8A04',
-    bg: '#FEF9C3',
-  },
-  danger: {
-    label: 'DANGER',
-    color: '#DC2626',
-    bg: '#FEE2E2',
-  },
+  safe: { label: 'SAFE', color: '#16A34A', bg: '#DCFCE7' },
+  warning: { label: 'WARNING', color: '#CA8A04', bg: '#FEF9C3' },
+  danger: { label: 'DANGER', color: '#DC2626', bg: '#FEE2E2' },
 };
 
 export default function DriverDetailView({ driverId, onBack }) {
+  const colorScheme = useColorScheme(); // follow device theme
+  const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const driver = mockDriverData[String(driverId)];
 
   if (!driver) {
     return (
-      <View style={styles.container}>
-        <Text style={{ padding: 24, fontSize: 18, color: 'red' }}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <Text style={[styles.notFoundText, { color: theme.danger }]}>
           Driver not found.
         </Text>
-        <Pressable onPress={onBack} style={styles.backFallback}>
-          <Text style={{ color: 'white' }}>Go Back</Text>
+        <Pressable onPress={onBack} style={[styles.backFallback, { backgroundColor: theme.primary }]}>
+          <Text style={{ color: theme.card }}>Go Back</Text>
         </Pressable>
       </View>
     );
@@ -57,7 +49,6 @@ export default function DriverDetailView({ driverId, onBack }) {
 
   const mapRef = useRef(null);
 
-  /* LIVE LOCATION  */
   const [driverLocation] = useState(
     new AnimatedRegion({
       latitude: driver.coordinates.latitude,
@@ -67,20 +58,15 @@ export default function DriverDetailView({ driverId, onBack }) {
     })
   );
 
-  const [routeCoordinates, setRouteCoordinates] = useState([
-    driver.coordinates,
-  ]);
-
-  /* RISK LEVEL (IOT)  */
+  const [routeCoordinates, setRouteCoordinates] = useState([driver.coordinates]);
   const [riskLevel, setRiskLevel] = useState('safe');
   const [lastAlert, setLastAlert] = useState(null);
 
-  /* SIMULATE IOT DATA */
+  // Simulate IoT risk updates
   useEffect(() => {
     const interval = setInterval(() => {
       const levels = ['safe', 'warning', 'danger'];
       const randomLevel = levels[Math.floor(Math.random() * levels.length)];
-
       setRiskLevel(randomLevel);
 
       if (randomLevel === 'danger') {
@@ -90,43 +76,27 @@ export default function DriverDetailView({ driverId, onBack }) {
           'Critical risk detected. Please contact the driver immediately.'
         );
       }
-    }, 7000); // simulate IoT update every 7s
+    }, 7000);
 
     return () => clearInterval(interval);
   }, []);
 
-  /* SIMULATE MOVEMENT */
+  // Simulate movement
   useEffect(() => {
     const interval = setInterval(() => {
       const current = driverLocation.__getValue();
-
       const next = {
         latitude: current.latitude + (Math.random() - 0.5) * 0.001,
         longitude: current.longitude + (Math.random() - 0.5) * 0.001,
       };
-
-      driverLocation.timing({
-        ...next,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start();
-
+      driverLocation.timing({ ...next, duration: 1000, useNativeDriver: false }).start();
       setRouteCoordinates((prev) => [...prev, next]);
-
-      mapRef.current?.animateToRegion(
-        {
-          ...next,
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        },
-        1000
-      );
+      mapRef.current?.animateToRegion({ ...next, latitudeDelta: 0.02, longitudeDelta: 0.02 }, 1000);
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
 
-  /* EMERGENCY CALL */
+  // Emergency call
   const handleEmergencyCall = async () => {
     const url = `tel:${driver.phone}`;
     const supported = await Linking.canOpenURL(url);
@@ -140,31 +110,30 @@ export default function DriverDetailView({ driverId, onBack }) {
   const risk = RISK_CONFIG[riskLevel];
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        {/* Header */}
         <View style={styles.header}>
           <Pressable style={styles.backButton} onPress={onBack}>
-            <Feather name="chevron-left" size={24} />
-            <Text>Back</Text>
+            <Feather name="chevron-left" size={24} color={theme.text} />
+            <Text style={[styles.backText, { color: theme.text }]}>Back</Text>
           </Pressable>
 
-          <Text style={styles.name}>{driver.name}</Text>
-          <Text style={styles.liveText}>● LIVE TRACKING</Text>
+          <Text style={[styles.name, { color: theme.text }]}>{driver.name}</Text>
+          <Text style={[styles.liveText, { color: theme.primary }]}>● LIVE TRACKING</Text>
         </View>
 
-
+        {/* Risk Status */}
         <View style={[styles.statusCard, { backgroundColor: risk.bg }]}>
-          <Text style={[styles.statusLabel, { color: risk.color }]}>
-            {risk.label}
-          </Text>
-          <Text style={styles.statusText}>
+          <Text style={[styles.statusLabel, { color: risk.color }]}>{risk.label}</Text>
+          <Text style={[styles.statusText, { color: theme.text }]}>
             {riskLevel === 'safe' && 'Driver operating normally'}
             {riskLevel === 'warning' && 'Unusual driving behavior detected'}
             {riskLevel === 'danger' && 'Immediate attention required'}
           </Text>
         </View>
 
-
+        {/* Map */}
         <View style={styles.mapCard}>
           <MapView
             ref={mapRef}
@@ -177,23 +146,16 @@ export default function DriverDetailView({ driverId, onBack }) {
             }}
           >
             <Marker.Animated coordinate={driverLocation}>
-              <Ionicons name="car" size={32} color="#2563EB" />
+              <Ionicons name="car" size={32} color={theme.primary} />
             </Marker.Animated>
-
-            <Polyline
-              coordinates={routeCoordinates}
-              strokeColor="#2563EB"
-              strokeWidth={4}
-            />
+            <Polyline coordinates={routeCoordinates} strokeColor={theme.primary} strokeWidth={4} />
           </MapView>
         </View>
 
-
+        {/* Emergency Call */}
         <View style={styles.emergencyContainer}>
-          <Pressable style={styles.emergencyButton} onPress={handleEmergencyCall}>
-            <Text style={styles.emergencyText}>
-              Emergency Call Driver
-            </Text>
+          <Pressable style={[styles.emergencyButton, { backgroundColor: theme.danger }]} onPress={handleEmergencyCall}>
+            <Text style={[styles.emergencyText, { color: theme.card }]}>Emergency Call Driver</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -201,41 +163,35 @@ export default function DriverDetailView({ driverId, onBack }) {
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAFB' },
-
-  header: { padding: 24, paddingTop: 48 },
-  backButton: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  container: { flex: 1 },
+  header: { padding: 24, paddingTop: 24 },
+  backButton: { flexDirection: 'row', alignItems: 'center', gap: 3, left: -6 },
+  backText: { fontSize: 16 },
   name: { fontSize: 22, fontWeight: '600', marginTop: 8 },
-  liveText: { color: '#16A34A', marginTop: 4, fontSize: 12 },
+  liveText: { marginTop: 4, fontSize: 12 },
 
   statusCard: {
     marginHorizontal: 24,
     padding: 16,
     borderRadius: 12,
+    marginBottom: 16,
   },
   statusLabel: { fontSize: 14, fontWeight: '700' },
   statusText: { fontSize: 13, marginTop: 4 },
 
-  mapCard: { margin: 24, borderRadius: 16, overflow: 'hidden' },
-  map: { height: 320 },
+  mapCard: { marginHorizontal: 24, borderRadius: 16, overflow: 'hidden', height: 320, marginBottom: 16 },
+  map: { flex: 1 },
 
-  emergencyContainer: { padding: 24 },
+  emergencyContainer: { paddingHorizontal: 24 },
   emergencyButton: {
-    backgroundColor: '#DC2626',
     height: 48,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emergencyText: { color: '#FFF', fontSize: 16, fontWeight: '600' },
+  emergencyText: { fontSize: 16, fontWeight: '600' },
 
-  backFallback: {
-    padding: 12,
-    backgroundColor: '#2563EB',
-    borderRadius: 8,
-    alignItems: 'center',
-    marginHorizontal: 24,
-  },
+  backFallback: { padding: 12, borderRadius: 8, alignItems: 'center', marginHorizontal: 24, marginTop: 20 },
+  notFoundText: { padding: 24, fontSize: 18, textAlign: 'center' },
 });

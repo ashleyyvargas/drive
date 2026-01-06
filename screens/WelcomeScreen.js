@@ -1,19 +1,24 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, StatusBar, useColorScheme } from 'react-native';
 import driveLogo from '../assets/drivelogo.png';
+import { lightTheme, darkTheme } from '../components/theme'; // reuse theme file
 
 export default function WelcomeScreen({ onStart }) {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === 'dark';
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={theme.background} />
       
       <View style={styles.logoContainer}>
         <Image source={driveLogo} style={styles.logo} resizeMode="contain" />
         <Text style={styles.title}>D.R.I.V.E</Text>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={onStart}>
-        <Text style={styles.buttonText}>Get Started</Text>
+      <TouchableOpacity style={[styles.button, { backgroundColor: theme.primary }]} onPress={onStart}>
+        <Text style={[styles.buttonText, { color: theme.card }]}>Get Started</Text>
       </TouchableOpacity>
     </View>
   );
@@ -22,7 +27,6 @@ export default function WelcomeScreen({ onStart }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 80,
@@ -39,18 +43,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#102671',
     letterSpacing: 2,
+    color: '#364d9bff',
   },
   button: {
-    backgroundColor: '#3b82f6',
     paddingVertical: 16,
     paddingHorizontal: 60,
     borderRadius: 30,
     marginBottom: 80,
   },
   buttonText: {
-    color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },

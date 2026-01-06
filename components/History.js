@@ -1,167 +1,116 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { lightTheme, darkTheme } from './theme';
 
 const historyData = [
-  {
-    id: 1,
-    date: 'DEC 15, 2025',
-    time: '09:15 AM',
-    location: 'Quezon City, Metro Manila',
-    level: 'level1',
-    levelText: 'LEVEL 1 WARNING',
-    color: '#10B981',
-  },
-  {
-    id: 2,
-    date: 'DEC 14, 2025',
-    time: '02:30 PM',
-    location: 'Makati City, Metro Manila',
-    level: 'level2',
-    levelText: 'LEVEL 2 WARNING',
-    color: '#F59E0B',
-  },
-  {
-    id: 3,
-    date: 'DEC 14, 2025',
-    time: '11:45 AM',
-    location: 'Manila City, Metro Manila',
-    level: 'level3',
-    levelText: 'LEVEL 3 WARNING',
-    color: '#EF4444',
-  },
-  {
-    id: 4,
-    date: 'DEC 13, 2025',
-    time: '08:20 AM',
-    location: 'Pasig City, Metro Manila',
-    level: 'level1',
-    levelText: 'LEVEL 1 WARNING',
-    color: '#10B981',
-  },
-  {
-    id: 5,
-    date: 'DEC 12, 2025',
-    time: '05:15 PM',
-    location: 'Taguig City, Metro Manila',
-    level: 'level2',
-    levelText: 'LEVEL 2 WARNING',
-    color: '#F59E0B',
-  },
+  { id: 1, date: 'DEC 15, 2025', time: '09:15 AM', location: 'Quezon City, Metro Manila', level: 'level1', levelText: 'LEVEL 1 WARNING' },
+  { id: 2, date: 'DEC 14, 2025', time: '02:30 PM', location: 'Makati City, Metro Manila', level: 'level2', levelText: 'LEVEL 2 WARNING' },
+  { id: 3, date: 'DEC 14, 2025', time: '11:45 AM', location: 'Manila City, Metro Manila', level: 'level3', levelText: 'LEVEL 3 WARNING' },
+  { id: 4, date: 'DEC 13, 2025', time: '08:20 AM', location: 'Pasig City, Metro Manila', level: 'level1', levelText: 'LEVEL 1 WARNING' },
+  { id: 5, date: 'DEC 12, 2025', time: '05:15 PM', location: 'Taguig City, Metro Manila', level: 'level2', levelText: 'LEVEL 2 WARNING' },
 ];
 
 export default function History({ onNavigate }) {
-  const getLevelColor = (level) => {
-    switch (level) {
-      case 'level1':
-        return '#10B981';
-      case 'level2':
-        return '#F59E0B';
-      case 'level3':
-        return '#EF4444';
-      default:
-        return '#000';
-    }
+  const [darkMode, setDarkMode] = useState(false); // optional
+  const theme = darkMode ? darkTheme : lightTheme;
+
+  const getLevelColor = (level) => theme[level];
+
+  const getIcon = (level) => {
+    if (level === 'level1') return 'alert-circle-outline';
+    if (level === 'level2') return 'alert-outline';
+    return 'alert';
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>History</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Header */}
+      <View style={[styles.header, { borderColor: theme.divider, backgroundColor: theme.background }]}>
+        <Text style={[styles.headerText, { color: theme.textPrimary }]}>History</Text>
       </View>
 
-      <ScrollView style={styles.list} contentContainerStyle={{ paddingBottom: 100 }}>
+      {/* History List */}
+      <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 110 }}>
         {historyData.map((item) => (
-          <TouchableOpacity key={item.id} style={styles.item}>
-            <View style={[styles.iconBox, { backgroundColor: item.color }]}>
-              {item.level === 'level1' && (
-                <MaterialCommunityIcons name="alert-circle-outline" size={24} color="white" />
-              )}
-              {item.level === 'level2' && (
-                <MaterialCommunityIcons name="alert-outline" size={24} color="white" />
-              )}
-              {item.level === 'level3' && (
-                <MaterialCommunityIcons name="alert" size={24} color="white" />
-              )}
+          <TouchableOpacity key={item.id} style={[styles.card, { backgroundColor: theme.surface }]}>
+            <View
+              style={[
+                styles.iconBox,
+                { backgroundColor: getLevelColor(item.level) + '20' }, 
+              ]}
+            >
+              <MaterialCommunityIcons
+                name={getIcon(item.level)}
+                size={26}
+                color={getLevelColor(item.level)}
+              />
             </View>
 
-            <View style={styles.itemContent}>
-              <Text style={styles.dateText}>{item.date}</Text>
-              <Text style={[styles.levelText, { color: getLevelColor(item.level) }]}>
-                {item.levelText}
-              </Text>
-              <Text style={styles.locationText}>{item.location}</Text>
-              <Text style={styles.timeText}>{item.time}</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.date, { color: theme.textSecondary }]}>{item.date}</Text>
+              <Text style={[styles.level, { color: getLevelColor(item.level) }]}>{item.levelText}</Text>
+              <Text style={[styles.location, { color: theme.textPrimary }]}>{item.location}</Text>
+              <Text style={[styles.time, { color: theme.textSecondary }]}>{item.time}</Text>
             </View>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, backgroundColor: '#white' }}>
-          <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')}  />
-          <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} active />
-          <NavItem icon="map-pin" label="Location" onPress={() => onNavigate('location')} />
-          <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} />
-          <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} />
-        </View>
+      {/* Bottom Navigation */}
+      <View style={[styles.navbar, { backgroundColor: theme.background, borderColor: theme.divider }]}>
+        <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} theme={theme} />
+        <NavItem icon="clock" label="History" active theme={theme} />
+        <NavItem icon="map-pin" label="Location" onPress={() => onNavigate('location')} theme={theme} />
+        <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} theme={theme} />
+        <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} theme={theme} />
       </View>
+    </View>
   );
 }
 
-function NavItem({ icon, label, onPress, active }) {
+/* Bottom Nav Item */
+function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>
-      <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: active ? '#3B82F6' : 'white', alignItems: 'center', justifyContent: 'center' }}>
-        <Feather name={icon} size={18} color={active ? '#ffffff' : '#3B82F6'} />
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          backgroundColor: active ? theme.primarySoft : 'transparent',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Feather
+          name={icon}
+          size={18}
+          color={active ? theme.primary : theme.textSecondary}
+        />
       </View>
-      <Text style={{ color: '#3B82F6', fontSize: 12, marginTop: 4 }}>{label}</Text>
+      <Text
+        style={{
+          fontSize: 12,
+          color: active ? theme.primary : theme.textSecondary,
+          marginTop: 4,
+        }}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 }
 
-
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#ffffff' },
-  header: {
-    paddingTop: 48,
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  headerText: { fontSize: 24, fontWeight: '600', color: '#111827' },
-  list: { flex: 1 },
-  item: {
-    flexDirection: 'row',
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-    alignItems: 'center',
-  },
-  iconBox: {
-    width: 64,
-    height: 64,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-  },
-  itemContent: { flex: 1 },
-  dateText: { fontSize: 12, color: '#6B7280', marginBottom: 2 },
-  levelText: { fontSize: 12, fontWeight: '600', marginBottom: 2 },
-  locationText: { fontSize: 12, color: '#4B5563', marginBottom: 2 },
-  timeText: { fontSize: 12, color: '#6B7280' },
-  navbar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 12,
-    backgroundColor: '#2563EB',
-  },
-  navButton: { alignItems: 'center' },
-  navText: { fontSize: 10, marginTop: 2, color: 'white' },
+  container: { flex: 1 },
+  header: { paddingTop: 16, paddingHorizontal: 24, paddingBottom: 16, borderBottomWidth: 1 },
+  headerText: { fontSize: 26, fontWeight: '700' },
+  card: { flexDirection: 'row', borderRadius: 18, padding: 16, marginBottom: 14, alignItems: 'center' },
+  iconBox: { width: 54, height: 54, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginRight: 16 },
+  date: { fontSize: 12, marginBottom: 2 },
+  level: { fontSize: 13, fontWeight: '700', marginBottom: 4 },
+  location: { fontSize: 12, marginBottom: 2 },
+  time: { fontSize: 12 },
+  navbar: { flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, borderTopWidth: 1 },
 });

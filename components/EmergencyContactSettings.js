@@ -1,39 +1,15 @@
+// EmergencyContactSettings.js
 import React, { useState } from 'react';
 import {
   View,
   Text,
   Pressable,
-  StyleSheet,
   FlatList,
   Modal,
+  StyleSheet,
 } from 'react-native';
 import { Feather, Ionicons, Entypo, AntDesign, FontAwesome5 } from '@expo/vector-icons';
-
-
-const lightTheme = {
-  background: '#F9FAFB',
-  card: '#FFFFFF',
-  text: '#111827',
-  subText: '#6B7280',
-  divider: '#E5E7EB',
-  primary: '#1E3A8A',
-  secondary: '#DBEAFE',
-  danger: '#DC2626',
-  navInactive: '#9CA3AF',
-};
-
-const darkTheme = {
-  background: '#0F172A',
-  card: '#1E293B',
-  text: '#F9FAFB',
-  subText: '#94A3B8',
-  divider: '#334155',
-  primary: '#3B82F6',
-  secondary: '#e3e6f0ff',
-  danger: '#F87171',
-  navInactive: '#D1D5DB',
-};
-
+import { lightTheme, darkTheme, SPACING, RADIUS, FONT } from './theme';
 
 export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -64,13 +40,12 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
     setSelectedAccount(null);
   };
 
-  
   const renderConnectedAccount = ({ item }) => (
     <View style={[styles.card, { backgroundColor: theme.card }]}>
       <View style={styles.rowBetween}>
         <View>
-          <Text style={[styles.itemTitle, { color: theme.text }]}>{item.name}</Text>
-          <Text style={[styles.itemSubtitle, { color: theme.subText }]}>{item.email}</Text>
+          <Text style={[styles.itemTitle, { color: theme.textPrimary, fontWeight: '700' }]}>{item.name}</Text>
+          <Text style={[styles.itemSubtitle, { color: theme.textSecondary }]}>{item.email}</Text>
         </View>
         <Pressable
           onPress={() => {
@@ -78,7 +53,7 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
             setShowDisconnectModal(true);
           }}
         >
-          <Entypo name="dots-three-vertical" size={20} color={theme.subText} />
+          <Entypo name="dots-three-vertical" size={20} color={theme.textSecondary} />
         </Pressable>
       </View>
     </View>
@@ -88,89 +63,81 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <FlatList
         keyExtractor={(item) => item.id}
+        data={[{}]}
+        renderItem={null}
         ListHeaderComponent={
           <>
-          
+            {/* Header */}
             <View style={[styles.header, { backgroundColor: theme.primary }]}>
-              <Text style={styles.headerTitle}>Settings</Text>
-              <Text style={styles.headerSubtitle}>Manage your preferences</Text>
+              <Text style={[styles.headerTitle, { color: 'white' }]}>Settings</Text>
+              <Text style={[styles.headerSubtitle, { color: 'white' }]}>Manage your preferences</Text>
             </View>
 
-
-            <View
-              style={[styles.card, { backgroundColor: theme.card }]}>
+            {/* Emergency Contact Card */}
+            <View style={[styles.card, { backgroundColor: theme.card }]}>
               <View style={styles.row}>
-                <View style={[styles.avatar, { backgroundColor: theme.secondary }]}>
+                <View style={[styles.avatar, { backgroundColor: theme.primarySoft }]}>
                   <Feather name="user" size={32} color={theme.primary} />
                 </View>
                 <View>
-                  <Text style={[styles.name, { color: theme.text }]}>Emergency Contact</Text>
-                  <Text style={[styles.email, { color: theme.subText }]}>+63 912 345 6789</Text>
+                  <Text style={[styles.name, { color: theme.textPrimary, fontWeight: '700' }]}>Emergency Contact</Text>
+                  <Text style={[styles.email, { color: theme.textSecondary }]}>+63 912 345 6789</Text>
                 </View>
               </View>
             </View>
 
-
+            {/* Mode Section */}
             <View style={[styles.card, { backgroundColor: theme.card }]}>
-              <Text style={[styles.sectionLabel, { color: theme.subText }]}>Mode</Text>
+              <Text style={[styles.sectionLabel, { color: theme.textSecondary }]}>Mode</Text>
               <View style={styles.rowBetween}>
                 <View style={styles.row}>
-                  <View style={[styles.iconCircle, { backgroundColor: theme.secondary }]}>
+                  <View style={[styles.iconCircle, { backgroundColor: theme.primarySoft }]}>
                     <AntDesign name="user-switch" size={20} color={theme.primary} />
                   </View>
                   <View>
-                    <Text style={[styles.itemTitle, { color: theme.text }]}>Driver Mode</Text>
-                    <Text style={[styles.itemSubtitle, { color: theme.subText }]}>
-                      Switch to driver features
-                    </Text>
+                    <Text style={[styles.itemTitle, { color: theme.textPrimary, fontWeight: '700' }]}>Driver Mode</Text>
+                    <Text style={[styles.itemSubtitle, { color: theme.textSecondary }]}>Switch to driver features</Text>
                   </View>
                 </View>
                 <Pressable
                   style={[styles.toggle, { backgroundColor: isDriverMode ? theme.primary : theme.divider }]}
                   onPress={() => setShowDriverConfirm(true)}
                 >
-                  <View style={[styles.toggleKnob, isDriverMode && styles.toggleKnobOn]} />
+                  <View style={[styles.toggleKnob, isDriverMode && { alignSelf: 'flex-end' }]} />
                 </Pressable>
               </View>
             </View>
 
-
+            {/* Connected Drivers */}
             <View style={[styles.card, { backgroundColor: theme.card }]}>
-              <Pressable
-              style={styles.listItem}
-              onPress={() => onNavigate('connected-accounts')}>
+              <Pressable style={styles.listItem} onPress={() => onNavigate('connected-accounts')}>
                 <View style={styles.row}>
-                  <Feather name="users" size={20} color={theme.subText} />
-                  <Text style={[styles.itemTitle, { color: theme.text }]}>
-                    Connected drivers
-                  </Text>
+                  <Feather name="users" size={20} color={theme.textSecondary} />
+                  <Text style={[styles.itemTitle, { color: theme.textPrimary }]}>Connected drivers</Text>
                 </View>
                 <Feather name="chevron-right" size={20} color={theme.navInactive} />
               </Pressable>
-            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+              <View style={[styles.divider, { backgroundColor: theme.divider }]} />
               <View style={styles.listItem}>
                 <View style={styles.row}>
-                  <Ionicons name="moon-outline" size={20} color={theme.subText} />
-                  <Text style={[styles.itemTitle, { color: theme.text }]}>Dark Mode</Text>
+                  <Ionicons name="moon-outline" size={20} color={theme.textSecondary} />
+                  <Text style={[styles.itemTitle, { color: theme.textPrimary }]}>Dark Mode</Text>
                 </View>
                 <Pressable
                   style={[styles.toggle, { backgroundColor: isDarkMode ? theme.primary : theme.divider }]}
                   onPress={() => setIsDarkMode(!isDarkMode)}
                 >
-                  <View style={[styles.toggleKnob, isDarkMode && styles.toggleKnobOn]} />
+                  <View style={[styles.toggleKnob, isDarkMode && { alignSelf: 'flex-end' }]} />
                 </Pressable>
               </View>
             </View>
 
-
-            <Pressable
-              style={[styles.card, { backgroundColor: theme.card }]}
-              onPress={() => setShowLogoutConfirm(true)}
-            >
+            {/* Log Out */}
+            <Pressable style={[styles.card, { backgroundColor: theme.card }]} onPress={() => setShowLogoutConfirm(true)}>
               <View style={styles.rowBetween}>
                 <View style={styles.row}>
                   <Feather name="log-out" size={20} color={theme.danger} />
-                  <Text style={[styles.logoutText, { color: theme.danger }]}>Log Out</Text>
+                  <Text style={[styles.logoutText, { color: theme.danger, fontWeight: '700' }]}>Log Out</Text>
                 </View>
                 <Feather name="chevron-right" size={20} color={theme.navInactive} />
               </View>
@@ -179,33 +146,33 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
         }
       />
 
-
+      {/* Driver Confirm Modal */}
       <Modal transparent visible={showDriverConfirm} animationType="fade">
         <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Switch Mode</Text>
-            <Text style={styles.modalText}>Switch to Driver mode?</Text>
+          <View style={[styles.modalCard, { backgroundColor: theme.card }]}>
+            <Text style={[styles.modalTitle, { color: theme.textPrimary }]}>Switch Mode</Text>
+            <Text style={[styles.modalText, { color: theme.textSecondary }]}>Switch to Driver mode?</Text>
             <View style={styles.modalActions}>
               <Pressable onPress={() => setShowDriverConfirm(false)}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={[styles.cancelText, { color: theme.textSecondary }]}>Cancel</Text>
               </Pressable>
               <Pressable onPress={confirmDriverSwitch}>
-                <Text style={styles.confirmText}>Confirm</Text>
+                <Text style={[styles.confirmText, { color: theme.primary }]}>Confirm</Text>
               </Pressable>
             </View>
           </View>
         </View>
       </Modal>
 
-
+      {/* Logout Modal */}
       <Modal transparent visible={showLogoutConfirm} animationType="fade">
         <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Log Out</Text>
-            <Text style={styles.modalText}>Are you sure you want to log out?</Text>
+          <View style={[styles.modalCard, { backgroundColor: theme.card }]}>
+            <Text style={[styles.modalTitle, { color: theme.textPrimary }]}>Log Out</Text>
+            <Text style={[styles.modalText, { color: theme.textSecondary }]}>Are you sure you want to log out?</Text>
             <View style={styles.modalActions}>
               <Pressable onPress={() => setShowLogoutConfirm(false)}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={[styles.cancelText, { color: theme.textSecondary }]}>Cancel</Text>
               </Pressable>
               <Pressable
                 onPress={() => {
@@ -220,17 +187,17 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
         </View>
       </Modal>
 
-
+      {/* Disconnect Modal */}
       <Modal transparent visible={showDisconnectModal} animationType="fade">
         <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
-            <Text style={styles.modalTitle}>Disconnect Account</Text>
-            <Text style={styles.modalText}>
+          <View style={[styles.modalCard, { backgroundColor: theme.card }]}>
+            <Text style={[styles.modalTitle, { color: theme.textPrimary }]}>Disconnect Account</Text>
+            <Text style={[styles.modalText, { color: theme.textSecondary }]}>
               Are you sure you want to disconnect {selectedAccount?.name}?
             </Text>
             <View style={styles.modalActions}>
               <Pressable onPress={() => setShowDisconnectModal(false)}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={[styles.cancelText, { color: theme.textSecondary }]}>Cancel</Text>
               </Pressable>
               <Pressable onPress={disconnectAccount}>
                 <Text style={[styles.confirmText, { color: theme.danger }]}>Disconnect</Text>
@@ -240,88 +207,54 @@ export default function EmergencyContactSettings({ onNavigate, onSwitchToDriver 
         </View>
       </Modal>
 
-
-      <View
-        style={[styles.bottomNav, { backgroundColor: theme.card, borderColor: theme.divider }]}
-      >
-        <NavItem
-          icon="users"
-          library='fa5'
-          label="Drivers"
-          theme={theme}
-          onPress={() => onNavigate('ec-dashboard')}
-        />
-        <NavItem
-          icon="bell"
-          label="Notifications"
-          theme={theme}
-          onPress={() => onNavigate('ec-notifications')}
-        />
-        <NavItem
-          icon="settings"
-          label="Settings"
-          active
-          theme={theme}
-          onPress={() => onNavigate('ec-settings')}
-        />
+      {/* Bottom Navigation */}
+      <View style={[styles.bottomNav, { backgroundColor: theme.card, borderColor: theme.divider }]}>
+        <NavItem icon="users" library="fa5" label="Drivers" theme={theme} onPress={() => onNavigate('ec-dashboard')} />
+        <NavItem icon="bell" label="Notifications" theme={theme} onPress={() => onNavigate('ec-notifications')} />
+        <NavItem icon="settings" label="Settings" active theme={theme} onPress={() => onNavigate('ec-settings')} />
       </View>
     </View>
   );
 }
 
-
 function NavItem({ icon, label, active, onPress, theme, library = 'feather' }) {
   const IconComponent = library === 'fa5' ? FontAwesome5 : Feather;
-  
+
   return (
     <Pressable style={styles.navItem} onPress={onPress}>
-      <IconComponent
-        name={icon}
-        size={22}
-        color={active ? theme.primary : theme.navInactive}
-      />
-      <Text
-        style={{
-          fontSize: 12,
-          color: active ? theme.primary : theme.navInactive,
-        }}
-      >
-        {label}
-      </Text>
+      <IconComponent name={icon} size={22} color={active ? theme.primary : theme.navInactive} />
+      <Text style={{ fontSize: 12, color: active ? theme.primary : theme.navInactive }}>{label}</Text>
     </Pressable>
   );
 }
 
-
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { paddingVertical: 24, paddingHorizontal: 16 },
-  headerTitle: { color: '#FFF', fontSize: 24, fontWeight: '600' },
-  headerSubtitle: { color: '#DBEAFE', fontSize: 14, marginTop: 4 },
-  content: { padding: 24, paddingBottom: 40 },
-  card: { borderRadius: 12, padding: 16, margin: 10, marginTop: 0 },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  rowBetween: { flexDirection: 'row', justifyContent: 'space-between' },
+  header: { paddingVertical: SPACING.l, paddingHorizontal: SPACING.m },
+  headerTitle: { fontSize: 24, fontWeight: '700' },
+  headerSubtitle: { fontSize: 14, marginTop: 4 },
+  card: { borderRadius: RADIUS.m, padding: SPACING.m, margin: SPACING.m, marginTop: 0 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: SPACING.s },
+  rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   avatar: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center' },
-  name: { fontSize: 16, fontWeight: '500' },
+  name: { fontSize: 16 },
   email: { fontSize: 14 },
-  sectionLabel: { fontSize: 14, marginBottom: 12 },
+  sectionLabel: { fontSize: 14, marginBottom: SPACING.s },
   iconCircle: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
   itemTitle: { fontSize: 14 },
   itemSubtitle: { fontSize: 12 },
-  listItem: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 12 },
-  divider: { height: 1, marginVertical: 8 },
+  listItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: SPACING.s },
+  divider: { height: 1, marginVertical: SPACING.s },
   toggle: { width: 48, height: 24, borderRadius: 12, padding: 2 },
   toggleKnob: { width: 20, height: 20, borderRadius: 10, backgroundColor: '#FFF' },
-  toggleKnobOn: { alignSelf: 'flex-end' },
   logoutText: { fontSize: 14 },
-  bottomNav: { flexDirection: 'row', justifyContent: 'space-around', paddingVertical: 12, borderTopWidth: 1 },
+  bottomNav: { flexDirection: 'row', justifyContent: 'space-around', paddingVertical: SPACING.s, borderTopWidth: 1 },
   navItem: { alignItems: 'center', gap: 4 },
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', alignItems: 'center' },
-  modalCard: { width: '85%', backgroundColor: 'white', borderRadius: 12, padding: 20 },
-  modalTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 8 },
-  modalText: { fontSize: 14, color: '#4B5563', marginBottom: 20 },
-  modalActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 20 },
-  cancelText: { color: '#6B7280' },
-  confirmText: { color: '#2563EB', fontWeight: 'bold' },
+  modalCard: { width: '85%', borderRadius: RADIUS.m, padding: SPACING.m },
+  modalTitle: { fontSize: 18, fontWeight: '700', marginBottom: SPACING.s },
+  modalText: { fontSize: 14, marginBottom: SPACING.m },
+  modalActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: SPACING.m },
+  cancelText: { fontSize: 14 },
+  confirmText: { fontSize: 14, fontWeight: '700' },
 });

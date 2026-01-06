@@ -1,91 +1,109 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { lightTheme, darkTheme } from './theme';
 
 export default function LocationView({ onNavigate }) {
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [darkMode, setDarkMode] = useState(false); // optional for dark/light
+  const theme = darkMode ? darkTheme : lightTheme;
+
+  const mapRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      
-      // Get current location
       let location = await Location.getCurrentPositionAsync({});
-      setCurrentLocation({
+      const region = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
-      });
+      };
+      setCurrentLocation(region);
     })();
   }, []);
 
   if (!currentLocation) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Fetching current location...</Text>
+      <View style={[styles.loading, { backgroundColor: theme.surface }]}>
+        <Text style={{ color: theme.textSecondary }}>
+          Fetching current location...
+        </Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.surface }]}>
       {/* Map */}
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={currentLocation}
-        showsUserLocation={true}
+        showsUserLocation
       >
         <Marker coordinate={currentLocation}>
-          <View style={styles.markerOuter}>
-            <View style={styles.markerInner} />
+          <View style={[styles.markerOuter, { backgroundColor: theme.primary + '20' }]}>
+            <View style={[styles.markerInner, { backgroundColor: theme.primary }]} />
           </View>
         </Marker>
       </MapView>
 
-      {/* Current Location Button */}
-      <TouchableOpacity
-        style={styles.locationButton}
-        onPress={() => {
-        }}
-      >
-        <Ionicons name="navigate" size={24} color="#2563EB" />
-      </TouchableOpacity>
-
-      {/* Location Info Card */}
-      <View style={styles.infoCard}>
-        <View style={styles.infoRow}>
-          <Ionicons name="location" size={20} color="white" />
-          <View style={{ marginLeft: 8 }}>
-            <Text style={styles.infoTitle}>Current Location</Text>
-            <Text style={styles.infoText}>
-              {currentLocation.latitude.toFixed(5)}, {currentLocation.longitude.toFixed(5)}
-            </Text>
-            <Text style={styles.infoTextSmall}>Last updated: Just now</Text>
-          </View>
+      {/* Info Card */}
+      <View style={[styles.infoCard, { backgroundColor: theme.card, borderColor: theme.divider }]}>
+        <Ionicons name="location" size={20} color={theme.primary} />
+        <View style={{ marginLeft: 10 }}>
+          <Text style={[styles.infoTitle, { color: theme.textPrimary }]}>Current Location</Text>
+          <Text style={[styles.infoText, { color: theme.textSecondary }]}>
+            {currentLocation.latitude.toFixed(5)}, {currentLocation.longitude.toFixed(5)}
+          </Text>
+          <Text style={[styles.infoTime, { color: theme.textSecondary }]}>Last updated: Just now</Text>
         </View>
       </View>
 
       {/* Bottom Navigation */}
-      <View style={styles.navbar}>
-        <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} />
-        <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} />
-        <NavItem icon="map-pin" label="Location" onPress={() => onNavigate('location')} active />
-        <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} />
-        <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} />
+      <View style={[styles.navbar, { backgroundColor: theme.surface, borderColor: theme.divider }]}>
+        <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} theme={theme} />
+        <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} theme={theme} />
+        <NavItem icon="map-pin" label="Location" active theme={theme} />
+        <NavItem icon="users" label="Contacts" onPress={() => onNavigate('contacts')} theme={theme} />
+        <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} theme={theme} />
       </View>
     </View>
   );
 }
 
-function NavItem({ icon, label, onPress, active }) {
+/* Bottom Nav Item */
+function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>
-      <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: active ? '#3B82F6' : 'white', alignItems: 'center', justifyContent: 'center' }}>
-        <Feather name={icon} size={18} color={active ? '#ffffff' : '#3B82F6'} />
+      <View
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          backgroundColor: active ? theme.primarySoft : 'transparent',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Feather
+          name={icon}
+          size={18}
+          color={active ? theme.primary : theme.textSecondary}
+        />
       </View>
-      <Text style={{ color: '#3B82F6', fontSize: 12, marginTop: 4 }}>{label}</Text>
+      <Text
+        style={{
+          fontSize: 12,
+          color: active ? theme.primary : theme.textSecondary,
+          marginTop: 4,
+        }}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -93,44 +111,37 @@ function NavItem({ icon, label, onPress, active }) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   map: { flex: 1 },
+  loading: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+
   markerOuter: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(59,130,246,0.2)',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   markerInner: {
-    width: 15,
-    height: 15,
-    borderRadius: 7.5,
-    backgroundColor: 'rgba(59,130,246,0.5)',
+    width: 14,
+    height: 14,
+    borderRadius: 7,
   },
-  locationButton: {
-    position: 'absolute',
-    bottom: 120,
-    right: 20,
-    width: 48,
-    height: 48,
-    backgroundColor: 'white',
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   infoCard: {
     position: 'absolute',
     bottom: 100,
     left: 16,
     right: 16,
-    backgroundColor: '#1E40AF',
-    borderRadius: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 16,
+    borderRadius: 18,
+    borderWidth: 1,
   },
-  infoRow: { flexDirection: 'row' },
-  infoTitle: { color: 'white', fontSize: 14 },
-  infoText: { color: 'white', fontSize: 12 },
-  infoTextSmall: { color: 'white', fontSize: 11, opacity: 0.8 },
+
+  infoTitle: { fontSize: 14, fontWeight: '600' },
+  infoText: { fontSize: 12, marginTop: 2 },
+  infoTime: { fontSize: 11, marginTop: 2 },
+
   navbar: {
     position: 'absolute',
     bottom: 0,
@@ -139,6 +150,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 12,
-    backgroundColor: 'white',
+    borderTopWidth: 1,
   },
 });
