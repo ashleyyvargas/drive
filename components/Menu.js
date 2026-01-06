@@ -101,7 +101,6 @@ export default function Menu({
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* Profile */}
       <TouchableOpacity
         style={[styles.profileCard, { backgroundColor: theme.primary }]}
         onPress={() => setShowAccountSettings(true)}
@@ -117,7 +116,6 @@ export default function Menu({
       </TouchableOpacity>
 
       <ScrollView>
-        {/* Mode Toggle */}
         <View style={{ paddingHorizontal: 16 }}>
           <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Mode</Text>
 
@@ -148,7 +146,6 @@ export default function Menu({
           </View>
         </View>
 
-        {/* Menu Items */}
         {menuItems.map((item, index) => (
           <TouchableOpacity
             key={index}
@@ -180,7 +177,6 @@ export default function Menu({
         <NavItem icon="menu" label="Menu" active theme={theme} />
       </View>
 
-      {/* Emergency Confirm Modal */}
       <ConfirmModal
         visible={showEmergencyConfirm}
         title="Switch Mode?"
@@ -194,7 +190,6 @@ export default function Menu({
         theme={theme}
       />
 
-      {/* Logout Modal */}
       <ConfirmModal
         visible={showLogoutConfirm}
         title="Log Out"
@@ -211,7 +206,6 @@ export default function Menu({
   );
 }
 
-/* Bottom Nav Item */
 function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>
@@ -234,7 +228,6 @@ function NavItem({ icon, label, onPress, active, theme }) {
   );
 }
 
-/* Reusable Modal */
 function ConfirmModal({ visible, title, message, onCancel, onConfirm, confirmText = 'Confirm', theme }) {
   return (
     <Modal transparent visible={visible} animationType="fade">

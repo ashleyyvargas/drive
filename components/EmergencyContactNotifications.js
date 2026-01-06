@@ -140,7 +140,6 @@ export default function EmergencyContactNotifications({ onNavigate }) {
   );
 }
 
-/* Bottom Nav Item */
 function NavButton({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={styles.navButton}>

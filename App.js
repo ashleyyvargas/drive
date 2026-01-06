@@ -33,7 +33,7 @@ export default function App() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [userData, setUserData] = useState(null);
 
-  const [userMode, setUserMode] = useState('driver'); // 'driver' | 'emergency-contact'
+  const [userMode, setUserMode] = useState('driver'); 
   const [selectedDriverId, setSelectedDriverId] = useState(null);
 
   const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);

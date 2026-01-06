@@ -12,10 +12,10 @@ import {
 import * as Location from 'expo-location';
 import { lightTheme, darkTheme, SPACING, RADIUS } from '../components/theme';
 
-const OTP_EXPIRY_TIME = 10; // seconds
+const OTP_EXPIRY_TIME = 10; 
 
 export default function OTPConfirmation({ phoneNumber, onConfirm, onResend, onBack }) {
-  const [otp, setOtp] = useState(['', '', '', '']);
+  const [otp, setOtp] = useState(['', '', '', '', '', '']); 
   const [error, setError] = useState('');
   const [otpTimer, setOtpTimer] = useState(OTP_EXPIRY_TIME);
   const [isResending, setIsResending] = useState(false);
@@ -50,7 +50,7 @@ export default function OTPConfirmation({ phoneNumber, onConfirm, onResend, onBa
     newOtp[index] = value;
     setOtp(newOtp);
     setError('');
-    if (value && index < 3) inputsRef.current[index + 1]?.focus();
+    if (value && index < 5) inputsRef.current[index + 1]?.focus();  
   };
 
   const handleKeyPress = (index, key) => {
@@ -77,11 +77,11 @@ export default function OTPConfirmation({ phoneNumber, onConfirm, onResend, onBa
     try {
       setIsResending(true);
       setError('');
-      setOtp(['', '', '', '']);
+      setOtp(['', '', '', '', '', '']); 
       if (onResend) await Promise.resolve(onResend());
       setOtpActive(true);
       setOtpTimer(OTP_EXPIRY_TIME);
-      inputsRef.current[0]?.focus();
+      inputsRef.current[0]?.focus(); 
     } catch {
       setError('Failed to resend code. Try again.');
     } finally {
@@ -173,16 +173,24 @@ export default function OTPConfirmation({ phoneNumber, onConfirm, onResend, onBa
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: SPACING.l, paddingTop: SPACING.l * 1.5, paddingBottom: SPACING.l },
+  container: { flex: 1, paddingHorizontal: SPACING.m, paddingTop: SPACING.l * 1.5, paddingBottom: SPACING.l },
   content: { flex: 1 },
-  iconWrapper: { alignItems: 'center', marginVertical: SPACING.l * 2 },
-  iconCircle: { width: 200, height: 200, borderRadius: RADIUS.l, alignItems: 'center', justifyContent: 'center' },
-  iconImage: { width: 150, height: 150 },
-  title: { fontSize: 24, fontWeight: '600', marginBottom: SPACING.s, textAlign: 'center' },
+  iconWrapper: { alignItems: 'center', marginVertical: SPACING.l },
+  iconCircle: { width: 150, height: 150, borderRadius: RADIUS.l, alignItems: 'center', justifyContent: 'center' },
+  iconImage: { width: 120, height: 120 },
+  title: { fontSize: 22, fontWeight: '600', marginBottom: SPACING.s, textAlign: 'center' },
   subtitle: { fontSize: 14, marginBottom: SPACING.s, textAlign: 'center', paddingHorizontal: SPACING.m },
   timer: { textAlign: 'center', fontSize: 14, marginBottom: SPACING.l },
   otpRow: { flexDirection: 'row', justifyContent: 'center', marginBottom: SPACING.l },
-  otpInput: { width: 56, height: 56, borderWidth: 2, borderRadius: RADIUS.m, textAlign: 'center', fontSize: 22, marginHorizontal: SPACING.s },
+  otpInput: { 
+    width: 45, 
+    height: 45, 
+    borderWidth: 2, 
+    borderRadius: RADIUS.m, 
+    textAlign: 'center', 
+    fontSize: 18, 
+    marginHorizontal: SPACING.xs 
+  },
   error: { fontSize: 14, marginBottom: SPACING.m, textAlign: 'center' },
   primaryButton: { height: 48, borderRadius: RADIUS.m, alignItems: 'center', justifyContent: 'center', marginBottom: SPACING.s },
   disabledButton: { opacity: 0.5 },

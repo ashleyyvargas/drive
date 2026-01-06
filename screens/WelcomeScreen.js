@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, StatusBar, useColorScheme } from 'react-native';
 import driveLogo from '../assets/drivelogo.png';
-import { lightTheme, darkTheme } from '../components/theme'; // reuse theme file
+import { lightTheme, darkTheme } from '../components/theme'; 
 
 export default function WelcomeScreen({ onStart }) {
   const colorScheme = useColorScheme();

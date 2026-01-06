@@ -28,7 +28,7 @@ const RISK_CONFIG = {
 };
 
 export default function DriverDetailView({ driverId, onBack }) {
-  const colorScheme = useColorScheme(); // follow device theme
+  const colorScheme = useColorScheme(); 
   const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
   const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -96,7 +96,6 @@ export default function DriverDetailView({ driverId, onBack }) {
     return () => clearInterval(interval);
   }, []);
 
-  // Emergency call
   const handleEmergencyCall = async () => {
     const url = `tel:${driver.phone}`;
     const supported = await Linking.canOpenURL(url);
@@ -112,7 +111,6 @@ export default function DriverDetailView({ driverId, onBack }) {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-        {/* Header */}
         <View style={styles.header}>
           <Pressable style={styles.backButton} onPress={onBack}>
             <Feather name="chevron-left" size={24} color={theme.text} />
@@ -123,7 +121,6 @@ export default function DriverDetailView({ driverId, onBack }) {
           <Text style={[styles.liveText, { color: theme.primary }]}>● LIVE TRACKING</Text>
         </View>
 
-        {/* Risk Status */}
         <View style={[styles.statusCard, { backgroundColor: risk.bg }]}>
           <Text style={[styles.statusLabel, { color: risk.color }]}>{risk.label}</Text>
           <Text style={[styles.statusText, { color: theme.text }]}>
@@ -133,7 +130,6 @@ export default function DriverDetailView({ driverId, onBack }) {
           </Text>
         </View>
 
-        {/* Map */}
         <View style={styles.mapCard}>
           <MapView
             ref={mapRef}
@@ -152,7 +148,6 @@ export default function DriverDetailView({ driverId, onBack }) {
           </MapView>
         </View>
 
-        {/* Emergency Call */}
         <View style={styles.emergencyContainer}>
           <Pressable style={[styles.emergencyButton, { backgroundColor: theme.danger }]} onPress={handleEmergencyCall}>
             <Text style={[styles.emergencyText, { color: theme.card }]}>Emergency Call Driver</Text>

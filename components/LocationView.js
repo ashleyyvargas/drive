@@ -37,7 +37,6 @@ export default function LocationView({ onNavigate }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
-      {/* Map */}
       <MapView
         ref={mapRef}
         style={styles.map}
@@ -51,7 +50,6 @@ export default function LocationView({ onNavigate }) {
         </Marker>
       </MapView>
 
-      {/* Info Card */}
       <View style={[styles.infoCard, { backgroundColor: theme.card, borderColor: theme.divider }]}>
         <Ionicons name="location" size={20} color={theme.primary} />
         <View style={{ marginLeft: 10 }}>
@@ -63,7 +61,6 @@ export default function LocationView({ onNavigate }) {
         </View>
       </View>
 
-      {/* Bottom Navigation */}
       <View style={[styles.navbar, { backgroundColor: theme.surface, borderColor: theme.divider }]}>
         <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} theme={theme} />
         <NavItem icon="clock" label="History" onPress={() => onNavigate('history')} theme={theme} />
@@ -75,7 +72,6 @@ export default function LocationView({ onNavigate }) {
   );
 }
 
-/* Bottom Nav Item */
 function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>

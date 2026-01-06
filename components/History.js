@@ -25,12 +25,10 @@ export default function History({ onNavigate }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* Header */}
       <View style={[styles.header, { borderColor: theme.divider, backgroundColor: theme.background }]}>
         <Text style={[styles.headerText, { color: theme.textPrimary }]}>History</Text>
       </View>
 
-      {/* History List */}
       <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 110 }}>
         {historyData.map((item) => (
           <TouchableOpacity key={item.id} style={[styles.card, { backgroundColor: theme.surface }]}>
@@ -57,7 +55,6 @@ export default function History({ onNavigate }) {
         ))}
       </ScrollView>
 
-      {/* Bottom Navigation */}
       <View style={[styles.navbar, { backgroundColor: theme.background, borderColor: theme.divider }]}>
         <NavItem icon="home" label="Home" onPress={() => onNavigate('dashboard')} theme={theme} />
         <NavItem icon="clock" label="History" active theme={theme} />
@@ -69,7 +66,6 @@ export default function History({ onNavigate }) {
   );
 }
 
-/* Bottom Nav Item */
 function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>

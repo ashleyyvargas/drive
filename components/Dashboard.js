@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import driverImage from '../assets/driver.png';
-import { lightTheme, darkTheme } from './theme'; // <-- import theme
+import { lightTheme, darkTheme } from './theme'; 
 
 export default function Dashboard({ onNavigate }) {
   const [selectedMonitoring, setSelectedMonitoring] = useState(null);
   const [showWarningDetails, setShowWarningDetails] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [darkMode, setDarkMode] = useState(false); // optional dark mode toggle
+  const [darkMode, setDarkMode] = useState(false); 
 
   const theme = darkMode ? darkTheme : lightTheme;
 
@@ -46,7 +46,7 @@ export default function Dashboard({ onNavigate }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.primary }}>
-      {/* Notification */}
+
       <TouchableOpacity
         onPress={() => setShowNotifications(true)}
         style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}
@@ -197,7 +197,6 @@ export default function Dashboard({ onNavigate }) {
         </ScrollView>
       </View>
 
-      {/* Bottom Navigation */}
       <View
         style={{
           flexDirection: 'row',
@@ -250,7 +249,6 @@ function MonitoringButton({ icon, label, onPress, theme }) {
   );
 }
 
-/* Bottom Nav Item */
 function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>
@@ -267,13 +265,13 @@ function NavItem({ icon, label, onPress, active, theme }) {
         <Feather
           name={icon}
           size={18}
-          color={active ? theme.primary : theme.textSecondary} // white for active
+          color={active ? theme.primary : theme.textSecondary}  
         />
       </View>
       <Text
         style={{
           fontSize: 12,
-          color: active ? theme.primary : theme.textSecondary, // white for active
+          color: active ? theme.primary : theme.textSecondary, 
           marginTop: 4,
         }}
       >

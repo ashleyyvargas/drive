@@ -61,7 +61,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
-      {/* Header */}
       <View
         style={{
           paddingHorizontal: 24,
@@ -77,7 +76,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
         </Text>
       </View>
 
-      {/* Search Bar */}
       <View
         style={{
           marginHorizontal: 24,
@@ -113,7 +111,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
         )}
       </View>
 
-      {/* Contact List */}
       <FlatList
         data={filteredContacts}
         keyExtractor={(item) => item.id}
@@ -169,7 +166,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
         )}
       />
 
-      {/* Bottom Navigation */}
       <View
         style={{
           flexDirection: 'row',
@@ -187,7 +183,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
         <NavItem icon="menu" label="Menu" onPress={() => onNavigate('menu')} theme={theme} />
       </View>
 
-      {/* Floating Add Button */}
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={{
@@ -209,7 +204,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
         <Ionicons name="add" size={34} color={theme.background} />
       </TouchableOpacity>
 
-      {/* Invite Modal */}
       <Modal visible={modalVisible} transparent animationType="fade">
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ width: '85%', backgroundColor: theme.background, borderRadius: 16, padding: 20 }}>
@@ -269,7 +263,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
         </View>
       </Modal>
 
-      {/* Toast */}
       {toastVisible && (
         <View
           style={{
@@ -292,7 +285,6 @@ export default function Contacts({ onNavigate, darkMode = false }) {
   );
 }
 
-/* Bottom Nav Item */
 function NavItem({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={{ alignItems: 'center' }}>

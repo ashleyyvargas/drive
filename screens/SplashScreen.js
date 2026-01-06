@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import driveLogo from '../assets/drivelogo.png'; // Make sure this path is correct
+import driveLogo from '../assets/drivelogo.png'; 
 
 export default function SplashScreen({ onComplete }) {
   useEffect(() => {

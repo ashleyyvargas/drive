@@ -59,7 +59,6 @@ export default function AccountSettings({
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* Header */}
       <View style={[styles.header, { borderColor: theme.divider }]}>
         <TouchableOpacity onPress={onBack}>
           <Ionicons name="chevron-back" size={28} color={theme.primary} />
@@ -70,7 +69,6 @@ export default function AccountSettings({
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
-        {/* Profile */}
         <View style={styles.profileContainer}>
           <TouchableOpacity
             onPress={pickImage}
@@ -93,7 +91,6 @@ export default function AccountSettings({
           </Text>
         </View>
 
-        {/* Profile Info */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>
             Profile Information
@@ -170,7 +167,6 @@ export default function AccountSettings({
           )}
         </View>
 
-        {/* Security */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: theme.textPrimary }]}>Security</Text>
 

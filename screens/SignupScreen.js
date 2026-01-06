@@ -53,7 +53,7 @@ export default function SignupScreen({ onSignup, onBackToLogin }) {
     }
   };
 
-  // Render Terms & Conditions
+
   if (showTerms) {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>

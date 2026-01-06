@@ -1,6 +1,3 @@
-// components/ui/theme.js
-
-// Light theme colors
 export const lightTheme = {
   background: '#FFFFFF',
   surface: '#F9FAFB',
@@ -17,7 +14,6 @@ export const lightTheme = {
   navInactive: '#9CA3AF',
 };
 
-// Dark theme colors
 export const darkTheme = {
   background: '#111827',
   surface: '#1F2937',
@@ -33,7 +29,6 @@ export const darkTheme = {
   navInactive: '#9CA3AF',
 };
 
-// Default static colors (for components that don’t use dynamic theming yet)
 export const colors = {
   primary: '#4F8EF7',
   primarySoft: '#EAF1FF',

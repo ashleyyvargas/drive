@@ -42,9 +42,7 @@ export default function ConnectedAccountsScreen({ onNavigate, isDarkMode }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      {/* HEADER */}
       <View style={[styles.header, { backgroundColor: theme.primary }]}>
-        {/* Chevron only */}
         <Pressable
           style={styles.chevronButton}
           onPress={() => onNavigate('ec-settings')}
@@ -52,7 +50,6 @@ export default function ConnectedAccountsScreen({ onNavigate, isDarkMode }) {
           <Feather name="chevron-left" size={24} color="#DBEAFE" />
         </Pressable>
 
-        {/* Centered title */}
         <Text style={styles.headerTitle}>Connected Drivers</Text>
       </View>
 
@@ -63,7 +60,6 @@ export default function ConnectedAccountsScreen({ onNavigate, isDarkMode }) {
         contentContainerStyle={{ paddingBottom: 40 }}
       />
 
-      {/* Disconnect Modal */}
       <Modal transparent visible={showDisconnectModal} animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalCard}>

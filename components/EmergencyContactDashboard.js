@@ -77,7 +77,6 @@ export default function EmergencyContactDashboard({ onNavigate, onViewDriver }) 
         </Text>
       </View>
 
-      {/* Drivers List */}
       <ScrollView contentContainerStyle={styles.driverList}>
         {drivers.map(driver => (
           <TouchableOpacity
@@ -135,7 +134,6 @@ export default function EmergencyContactDashboard({ onNavigate, onViewDriver }) 
         ))}
       </ScrollView>
 
-      {/* Bottom Navigation */}
       <View style={[styles.bottomNav, { backgroundColor: theme.surface, borderTopColor: theme.divider }]}>
         <NavButton icon="users" label="Drivers" active theme={theme} onPress={() => onNavigate('ec-dashboard')} />
         <NavButton icon="bell" label="Notifications" theme={theme} onPress={() => onNavigate('ec-notifications')} />
@@ -145,7 +143,6 @@ export default function EmergencyContactDashboard({ onNavigate, onViewDriver }) 
   );
 }
 
-/* Bottom Nav Item */
 function NavButton({ icon, label, onPress, active, theme }) {
   return (
     <TouchableOpacity onPress={onPress} disabled={active} style={styles.navButton}>
