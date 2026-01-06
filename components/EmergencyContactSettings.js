@@ -31,7 +31,7 @@ const darkTheme = {
   primary: '#3B82F6',
   secondary: '#e3e6f0ff',
   danger: '#F87171',
-  navInactive: '#64748B',
+  navInactive: '#D1D5DB',
 };
 
 

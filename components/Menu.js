@@ -74,11 +74,6 @@ const cancelEmergencySwitch = () => {
 
   const menuItems = [
     {
-      icon: <Ionicons name="notifications" size={20} color={darkMode ? 'white' : '#2563EB'} />,
-      label: 'Quick Alerts',
-      action: () => {},
-    },
-    {
       icon: <Ionicons name="moon" size={20} color={darkMode ? 'white' : '#2563EB'} />,
       label: 'Dark Mode',
       action: () => setDarkMode(!darkMode),
@@ -341,7 +336,7 @@ const styles = StyleSheet.create({
   },
   userName: { fontSize: 18, fontWeight: 'bold' },
   userPhone: { fontSize: 14, opacity: 0.9 },
-  toggleContainer: { paddingHorizontal: 16, marginBottom: 24 },
+  toggleContainer: { paddingHorizontal: 16 },
   toggleTitle: { fontSize: 14, marginBottom: 8, fontWeight: 'bold' },
   toggleItem: {
     flexDirection: 'row',
@@ -375,50 +370,50 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   modalOverlay: {
-  flex: 1,
-  backgroundColor: 'rgba(0,0,0,0.5)',
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-modalBox: {
-  width: '85%',
-  backgroundColor: 'white',
-  borderRadius: 12,
-  padding: 20,
-},
-modalTitle: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  marginBottom: 8,
-},
-modalText: {
-  fontSize: 14,
-  color: '#374151',
-  marginBottom: 20,
-},
-modalActions: {
-  flexDirection: 'row',
-  justifyContent: 'flex-end',
-},
-modalButton: {
-  paddingVertical: 8,
-  paddingHorizontal: 16,
-  borderRadius: 8,
-  marginLeft: 8,
-},
-cancelButton: {
-  backgroundColor: '#E5E7EB',
-},
-confirmButton: {
-  backgroundColor: '#2563EB',
-},
-cancelText: {
-  color: '#111827',
-  fontWeight: '500',
-},
-confirmText: {
-  color: 'white',
-  fontWeight: '600',
-},
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBox: {
+    width: '85%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  modalText: {
+    fontSize: 14,
+    color: '#374151',
+    marginBottom: 20,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  modalButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginLeft: 8,
+  },
+  cancelButton: {
+    backgroundColor: '#E5E7EB',
+  },
+  confirmButton: {
+    backgroundColor: '#2563EB',
+  },
+  cancelText: {
+    color: '#111827',
+    fontWeight: '500',
+  },
+  confirmText: {
+    color: 'white',
+    fontWeight: '600',
+  },
 
 });

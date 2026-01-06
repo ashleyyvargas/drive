@@ -14,6 +14,8 @@ export default function LoginScreen({ onLogin, onForgotPassword, onSignup }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -67,11 +69,18 @@ export default function LoginScreen({ onLogin, onForgotPassword, onSignup }) {
           <Feather name="lock" size={18} style={styles.icon} />
           <TextInput
             placeholder="Password"
-            secureTextEntry
+            secureTextEntry={!showPassword}
             value={password}
             onChangeText={setPassword}
             style={styles.input}
           />
+          <Pressable onPress={() => setShowPassword(!showPassword)}>
+            <Feather
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={18}
+              color="#6B7280"
+            />
+          </Pressable>
         </View>
         {errors.password && <Text style={styles.error}>{errors.password}</Text>}
       </View>
